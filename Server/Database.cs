@@ -28,11 +28,13 @@ namespace Server
     {
         public string Name { get; set; }
         public Teacher Teacher { get; set; }
+        public DateTime Date { get; set; }
         public Dictionary<Student, int> StudentsMarks { get; set; }
+        public string JoinCode { get; set; }
 
     }
 
-
+    
     public sealed class Database
     {
         private static Database instance = null;
@@ -72,7 +74,25 @@ namespace Server
 
         private void Seed()
         {
-            Parents.Add(new Parent { Name="Ed", Password="1234" });
+            Parents.Add(new Parent { Name="P1", Password="1234" });
+
+
+            Students.Add(new Student { Name = "S1", StudentParent = Parents[0] });
+
+
+            Teachers.Add(new Teacher { Name = "T1", Password = "1234" });
+
+            Dictionary<Student, int> Class1Marks = new Dictionary<Student, int>();
+            Class1Marks.Add(Students[0], -1);
+            SchoolClasses.Add(new SchoolClass { Name = "Class 1", Teacher = Teachers[0], Date = new DateTime(2022, 12, 1), StudentsMarks = Class1Marks, JoinCode = "C1" });
+
+            Dictionary<Student, int> Class2Marks = new Dictionary<Student, int>();
+            //Class2Marks.Add(Students[0], -1);
+            SchoolClasses.Add(new SchoolClass { Name = "Class 2", Teacher = Teachers[0], Date = new DateTime(2022, 12, 3), StudentsMarks = Class2Marks, JoinCode = "C2" });
+
+            Dictionary<Student, int> Class3Marks = new Dictionary<Student, int>();
+            //Class3Marks.Add(Students[0], -1);
+            SchoolClasses.Add(new SchoolClass { Name = "Class 3", Teacher = Teachers[0], Date = new DateTime(2022, 12, 2), StudentsMarks = Class3Marks, JoinCode = "C3" });
         }
 
         public IEnumerable<Parent> GetParents()

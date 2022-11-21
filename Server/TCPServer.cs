@@ -48,12 +48,29 @@ namespace Server
 
             while (isClientConnected)
             {
-                data = sr.ReadLine();
+                isClientConnected = client.Connected;
+
+                if (!isClientConnected)
+                    break;
+
+                try
+                {
+                    data = sr.ReadLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    break;
+                }
 
                 Console.WriteLine(data);
 
                 RequestHandler.HandleRequest(client, data ?? "");
             }
+
+            Console.WriteLine("Client Disconnedted");
+            
+            client.Close();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ParentClient
 {
-    partial class FrmLogin
+    partial class frmLogin
     {
         /// <summary>
         /// Required designer variable.
@@ -57,7 +57,7 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // FrmLogin
+            // frmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -65,7 +65,7 @@
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.textPassword);
             this.Controls.Add(this.textUsername);
-            this.Name = "FrmLogin";
+            this.Name = "frmLogin";
             this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();

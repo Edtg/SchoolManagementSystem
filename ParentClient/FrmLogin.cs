@@ -10,21 +10,27 @@ using System.Windows.Forms;
 
 namespace ParentClient
 {
-    public partial class FrmLogin : Form
+    public partial class frmLogin : Form
     {
         private Client client = null;
 
-        public FrmLogin()
+        public frmLogin()
         {
             InitializeComponent();
 
-            client = new Client("127.0.0.1", 5555);
+            DialogResult = DialogResult.Cancel;
+            //client = new Client("127.0.0.1", 5555);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string Request = "instruction=loginparent|username=" + textUsername.Text + "|password=" + textPassword.Text;
-            client.SendData(Request);
+            if (Client.Instance.SendData(Request)[0].Equals("success"))
+            {
+                Session.Instance.ParentName = textUsername.Text;
+                DialogResult = DialogResult.OK;
+                Close();
+            }
         }
     }
 }
