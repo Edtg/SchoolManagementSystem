@@ -10,15 +10,15 @@ namespace Server
 {
     internal class RequestHandler
     {
-        public static void HandleRequest(TcpClient client, string request)
+        public static void HandleRequest(TcpClient Client, string Request)
         {
-            if (client == null || request == "")
+            if (Client == null || Request == "")
                 return;
 
             Dictionary<string, string> ParsedRequest = new Dictionary<string, string>();
             try
             {
-                ParsedRequest = ParseRequest(request);
+                ParsedRequest = ParseRequest(Request);
             }
             catch (Exception ex)
             {
@@ -33,114 +33,24 @@ namespace Server
 
             Console.WriteLine("Processing Request: " + ParsedRequest["instruction"]);
 
-            StreamWriter sw = new StreamWriter(client.GetStream(), Encoding.ASCII);
+            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
 
             switch (ParsedRequest["instruction"])
             {
                 case "loginparent":
-                    try
-                    {
-                        string username = ParsedRequest["username"];
-                        string password = ParsedRequest["password"];
-                        Parent parent = Database.Instance.GetParents().Where(p => p.Name.Equals(username)).First();
-                        if (parent.Password.Equals(password))
-                        {
-                            Console.WriteLine("Login Successful");
-                            sw.WriteLine("success");
-                            sw.Flush();
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Parent Login Failed: Invalid password");
-                        }
-                    }
-                    catch (Exception Ex)
-                    {
-                        Console.WriteLine("Parent Login Failed");
-                    }
-                    sw.WriteLine("fail");
-                    sw.Flush();
+                    LoginController.LoginParent(ParsedRequest, Client);
                     break;
                 case "loginteacher":
-                    try
-                    {
-                        string username = ParsedRequest["username"];
-                        string password = ParsedRequest["password"];
-                        Teacher teacher = Database.Instance.GetTeachers().Where(p => p.Name.Equals(username)).First();
-                        if (teacher.Password.Equals(password))
-                        {
-                            Console.WriteLine("Login Successful");
-                            sw.WriteLine("success");
-                            sw.Flush();
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Teacher Login Failed: Invalid password");
-                        }
-                    }
-                    catch (Exception Ex)
-                    {
-                        Console.WriteLine("Teacher Login Failed");
-                    }
-                    sw.WriteLine("fail");
-                    sw.Flush();
+                    LoginController.LoginTeacher(ParsedRequest, Client);
                     break;
                 case "parentclasses":
-                    try
-                    {
-                        string SortBy = ParsedRequest["sort"];
-                        string ParentName = ParsedRequest["parent"];
-                        Parent parent = Database.Instance.GetParents().Where(p => p.Name.Equals(ParentName)).First();
-                        Student student = Database.Instance.GetStudents().Where(s => s.StudentParent.Equals(parent)).First();
-                        List<SchoolClass> Classes = Database.Instance.GetSchoolClasses().Where(c => c.StudentsMarks.ContainsKey(student)).ToList();
-
-                        if (SortBy.Equals("date"))
-                        {
-                            Classes = Classes.OrderBy(c => c.Date).ToList();
-                        }
-
-                        sw.WriteLine("class|date");
-
-                        foreach (SchoolClass schoolClass in Classes)
-                        {
-                            sw.WriteLine(schoolClass.Name + "|" + schoolClass.Date.ToString());
-                        }
-                        sw.Flush();
-                        break;
-                    }
-                    catch (Exception Ex)
-                    {
-                        Console.WriteLine("Get Classes Failed");
-                    }
-                    sw.WriteLine("fail");
-                    sw.Flush();
+                    SchoolClassesController.GetParentClasses(ParsedRequest, Client);
                     break;
                 case "joinclass":
-                    try
-                    {
-                        string Code = ParsedRequest["code"];
-                        string ParentName = ParsedRequest["parent"];
-                        SchoolClass schoolClass = Database.Instance.GetSchoolClasses().Where(c => c.JoinCode.Equals(Code)).First();
-                        Parent parent = Database.Instance.GetParents().Where(p => p.Name.Equals(ParentName)).First();
-                        Student student = Database.Instance.GetStudents().Where(s => s.StudentParent.Equals(parent)).First();
-
-                        if (!schoolClass.StudentsMarks.ContainsKey(student))
-                        {
-                            schoolClass.StudentsMarks.Add(student, -1);
-                            Console.WriteLine("Student joined " + schoolClass.Name);
-                            sw.WriteLine("success");
-                            sw.Flush();
-                            break;
-                        }
-                    }
-                    catch (Exception Ex)
-                    {
-                        Console.WriteLine("Join Class Failed");
-                    }
-                    sw.WriteLine("fail");
-                    sw.Flush();
+                    SchoolClassesController.JoinClass(ParsedRequest, Client);
+                    break;
+                case "teacherclasses":
+                    SchoolClassesController.GetTeacherClasses(ParsedRequest, Client);
                     break;
 
 

@@ -6,13 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public struct Parent
-    {
-        public string Name { get; set; }
-        public string Password { get; set; }
-    }
-
-    public struct Teacher
+    public struct User
     {
         public string Name { get; set; }
         public string Password { get; set; }
@@ -21,17 +15,25 @@ namespace Server
     public struct Student
     {
         public string Name { get; set; }
-        public Parent StudentParent { get; set; }
+        public User StudentParent { get; set; }
     }
 
     public struct SchoolClass
     {
         public string Name { get; set; }
-        public Teacher Teacher { get; set; }
+        public User ClassTeacher { get; set; }
         public DateTime Date { get; set; }
         public Dictionary<Student, int> StudentsMarks { get; set; }
         public string JoinCode { get; set; }
+    }
 
+    public struct Message
+    {
+        public string Content { get; set; }
+        public DateTime Timestamp { get; set; }
+        public User Sender { get; set; }
+        public List<User> Receivers { get; set; }
+        public bool IsBroadcast { get; set; }
     }
 
     
@@ -57,15 +59,15 @@ namespace Server
 
 
 
-        public List<Parent> Parents { get; set; }
-        public List<Teacher> Teachers { get; set; }
+        public List<User> Parents { get; set; }
+        public List<User> Teachers { get; set; }
         public List<Student> Students { get; set; }
         public List<SchoolClass> SchoolClasses { get; set; }
 
         public Database()
         {
-            Parents = new List<Parent>();
-            Teachers = new List<Teacher>();
+            Parents = new List<User>();
+            Teachers = new List<User>();
             Students = new List<Student>();
             SchoolClasses = new List<SchoolClass>();
 
@@ -74,33 +76,33 @@ namespace Server
 
         private void Seed()
         {
-            Parents.Add(new Parent { Name="P1", Password="1234" });
+            Parents.Add(new User { Name="P1", Password="1234" });
 
 
             Students.Add(new Student { Name = "S1", StudentParent = Parents[0] });
 
 
-            Teachers.Add(new Teacher { Name = "T1", Password = "1234" });
+            Teachers.Add(new User { Name = "T1", Password = "1234" });
 
             Dictionary<Student, int> Class1Marks = new Dictionary<Student, int>();
             Class1Marks.Add(Students[0], -1);
-            SchoolClasses.Add(new SchoolClass { Name = "Class 1", Teacher = Teachers[0], Date = new DateTime(2022, 12, 1), StudentsMarks = Class1Marks, JoinCode = "C1" });
+            SchoolClasses.Add(new SchoolClass { Name = "Class 1", ClassTeacher = Teachers[0], Date = new DateTime(2022, 12, 1), StudentsMarks = Class1Marks, JoinCode = "C1" });
 
             Dictionary<Student, int> Class2Marks = new Dictionary<Student, int>();
             //Class2Marks.Add(Students[0], -1);
-            SchoolClasses.Add(new SchoolClass { Name = "Class 2", Teacher = Teachers[0], Date = new DateTime(2022, 12, 3), StudentsMarks = Class2Marks, JoinCode = "C2" });
+            SchoolClasses.Add(new SchoolClass { Name = "Class 2", ClassTeacher = Teachers[0], Date = new DateTime(2022, 12, 3), StudentsMarks = Class2Marks, JoinCode = "C2" });
 
             Dictionary<Student, int> Class3Marks = new Dictionary<Student, int>();
             //Class3Marks.Add(Students[0], -1);
-            SchoolClasses.Add(new SchoolClass { Name = "Class 3", Teacher = Teachers[0], Date = new DateTime(2022, 12, 2), StudentsMarks = Class3Marks, JoinCode = "C3" });
+            SchoolClasses.Add(new SchoolClass { Name = "Class 3", ClassTeacher = Teachers[0], Date = new DateTime(2022, 12, 2), StudentsMarks = Class3Marks, JoinCode = "C3" });
         }
 
-        public IEnumerable<Parent> GetParents()
+        public IEnumerable<User> GetParents()
         {
             return Parents;
         }
 
-        public IEnumerable<Teacher> GetTeachers()
+        public IEnumerable<User> GetTeachers()
         {
             return Teachers;
         }
