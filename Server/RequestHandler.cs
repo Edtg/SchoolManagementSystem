@@ -52,6 +52,12 @@ namespace Server
                 case "teacherclasses":
                     SchoolClassesController.GetTeacherClasses(ParsedRequest, Client);
                     break;
+                case "createclass":
+                    SchoolClassesController.CreateClass(ParsedRequest, Client);
+                    break;
+                case "updateclass":
+                    SchoolClassesController.UpdateClass(ParsedRequest, Client);
+                    break;
 
 
 

@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public struct User
+    public class User
     {
         public string Name { get; set; }
         public string Password { get; set; }
     }
 
-    public struct Student
+    public class Student
     {
         public string Name { get; set; }
         public User StudentParent { get; set; }
     }
 
-    public struct SchoolClass
+    public class SchoolClass
     {
         public string Name { get; set; }
         public User ClassTeacher { get; set; }
@@ -27,7 +27,7 @@ namespace Server
         public string JoinCode { get; set; }
     }
 
-    public struct Message
+    public class Message
     {
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
@@ -63,6 +63,7 @@ namespace Server
         public List<User> Teachers { get; set; }
         public List<Student> Students { get; set; }
         public List<SchoolClass> SchoolClasses { get; set; }
+        public List<Message> Messages { get; set; }
 
         public Database()
         {
@@ -77,23 +78,23 @@ namespace Server
         private void Seed()
         {
             Parents.Add(new User { Name="P1", Password="1234" });
+            Parents.Add(new User { Name = "P2", Password = "12345" });
 
 
             Students.Add(new Student { Name = "S1", StudentParent = Parents[0] });
+            Students.Add(new Student { Name = "S2", StudentParent = Parents[1] });
 
 
             Teachers.Add(new User { Name = "T1", Password = "1234" });
+            Teachers.Add(new User { Name = "T2", Password = "12345" });
 
             Dictionary<Student, int> Class1Marks = new Dictionary<Student, int>();
-            Class1Marks.Add(Students[0], -1);
             SchoolClasses.Add(new SchoolClass { Name = "Class 1", ClassTeacher = Teachers[0], Date = new DateTime(2022, 12, 1), StudentsMarks = Class1Marks, JoinCode = "C1" });
 
             Dictionary<Student, int> Class2Marks = new Dictionary<Student, int>();
-            //Class2Marks.Add(Students[0], -1);
-            SchoolClasses.Add(new SchoolClass { Name = "Class 2", ClassTeacher = Teachers[0], Date = new DateTime(2022, 12, 3), StudentsMarks = Class2Marks, JoinCode = "C2" });
+            SchoolClasses.Add(new SchoolClass { Name = "Class 2", ClassTeacher = Teachers[1], Date = new DateTime(2022, 12, 3), StudentsMarks = Class2Marks, JoinCode = "C2" });
 
             Dictionary<Student, int> Class3Marks = new Dictionary<Student, int>();
-            //Class3Marks.Add(Students[0], -1);
             SchoolClasses.Add(new SchoolClass { Name = "Class 3", ClassTeacher = Teachers[0], Date = new DateTime(2022, 12, 2), StudentsMarks = Class3Marks, JoinCode = "C3" });
         }
 
@@ -129,6 +130,43 @@ namespace Server
             }
 
             return StudentMarks;
+        }
+
+        public void CreateSchoolClassClass(SchoolClass NewClass)
+        {
+            SchoolClasses.Add(NewClass);
+        }
+
+        public void UpdateSchoolClassName(SchoolClass Class, string NewName)
+        {
+            SchoolClass UpdatedClass = SchoolClasses.Find(c => c.Equals(Class));
+
+            if (UpdatedClass != null)
+                UpdatedClass.Name = NewName;
+        }
+
+        public void UpdateSchoolClassTeacher(SchoolClass Class, User NewTeacher)
+        {
+            SchoolClass UpdatedClass = SchoolClasses.Find(c => c.Equals(Class));
+
+            if (UpdatedClass != null)
+                UpdatedClass.ClassTeacher = NewTeacher;
+        }
+
+        public void UpdateSchoolClassDate(SchoolClass Class, DateTime NewDate)
+        {
+            SchoolClass UpdatedClass = SchoolClasses.Find(c => c.Equals(Class));
+
+            if (UpdatedClass != null)
+                UpdatedClass.Date = NewDate;
+        }
+
+        public void UpdateSchoolClassCode(SchoolClass Class, string NewCode)
+        {
+            SchoolClass UpdatedClass = SchoolClasses.Find(c => c.Equals(Class));
+
+            if (UpdatedClass != null)
+                UpdatedClass.JoinCode = NewCode;
         }
 
     }

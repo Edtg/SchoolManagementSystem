@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParentClient
+namespace TeacherClient
 {
     internal class Client
     {
@@ -14,8 +14,9 @@ namespace ParentClient
 
         public static Client Instance
         {
-            get {
-                lock(padlock)
+            get
+            {
+                lock (padlock)
                 {
                     if (instance == null)
                     {

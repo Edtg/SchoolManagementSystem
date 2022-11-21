@@ -87,9 +87,13 @@ namespace Server
                 {
                     Classes = Classes.OrderBy(c => c.Name).ToList();
                 }
+                else if (SortBy.Equals("date"))
+                {
+                    Classes = Classes.OrderBy(c => c.Date).ToList();
+                }
                 else if (SortBy.Equals("students"))
                 {
-                    Classes = Classes.OrderBy(c => c.StudentsMarks.Count).ToList();
+                    Classes = Classes.OrderByDescending(c => c.StudentsMarks.Count).ToList();
                 }
 
                 sw.WriteLine("class|date|students");
@@ -104,6 +108,58 @@ namespace Server
             catch (Exception Ex)
             {
                 Console.WriteLine("Get Classes Failed");
+            }
+            sw.WriteLine("fail");
+            sw.Flush();
+        }
+
+        public static void CreateClass(Dictionary<string, string> Request, TcpClient Client)
+        {
+            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+
+            User Teacher = Database.Instance.GetTeachers().Where(t => t.Name.Equals(Request["teacher"])).First();
+            SchoolClass NewClass = new SchoolClass() {
+                Name = Request["name"],
+                ClassTeacher = Teacher,
+                Date = new DateTime(Int32.Parse(Request["year"]),
+                Int32.Parse(Request["month"]), Int32.Parse(Request["day"])),
+                StudentsMarks = new Dictionary<Student, int>(),
+                JoinCode = Request["code"]
+            };
+
+            Database.Instance.CreateSchoolClassClass(NewClass);
+        }
+
+        public static void UpdateClass(Dictionary<string, string> Request, TcpClient Client)
+        {
+            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+
+            try
+            {
+                string SchoolClassName = Request["classname"];
+                SchoolClass UpdatingClass = Database.Instance.GetSchoolClasses().Where(c => c.Name == SchoolClassName).First();
+
+                if (Request.ContainsKey("name"))
+                {
+                    Database.Instance.UpdateSchoolClassName(UpdatingClass, Request["name"]);
+                }
+                if (Request.ContainsKey("teacher"))
+                {
+                    User Teacher = Database.Instance.GetTeachers().Where(t => t.Name == Request["Name"]).First();
+                    Database.Instance.UpdateSchoolClassTeacher(UpdatingClass, Teacher);
+                }
+                if (Request.ContainsKey("year") && Request.ContainsKey("month") && Request.ContainsKey("day"))
+                {
+                    Database.Instance.UpdateSchoolClassDate(UpdatingClass, new DateTime(Int32.Parse(Request["year"]), Int32.Parse(Request["month"]), Int32.Parse(Request["day"])));
+                }
+                if (Request.ContainsKey("code"))
+                {
+                    Database.Instance.UpdateSchoolClassCode(UpdatingClass, Request["code"]);
+                }
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Updating Class Failed");
             }
             sw.WriteLine("fail");
             sw.Flush();
