@@ -58,6 +58,15 @@ namespace Server
                 case "updateclass":
                     SchoolClassesController.UpdateClass(ParsedRequest, Client);
                     break;
+                case "classparents":
+                    SchoolClassesController.GetClassParents(ParsedRequest, Client);
+                    break;
+                case "getmessages":
+                    MessageController.GetMesages(ParsedRequest, Client);
+                    break;
+                case "sendmessage":
+                    MessageController.SendMessage(ParsedRequest, Client);
+                    break;
 
 
 

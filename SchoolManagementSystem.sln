@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{AC77BA37-BE77-420C-9302-1A8EB399C3A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{AC77BA37-BE77-420C-9302-1A8EB399C3A6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{343A65D2-7B94-436B-928F-4BD492A7BF27}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{0E717CEC-3006-4B56-AF18-468E4907E7AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParentClient", "ParentClient\ParentClient.csproj", "{78D06100-209F-43C5-80B5-0B7256EC68E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParentClient", "ParentClient\ParentClient.csproj", "{78D06100-209F-43C5-80B5-0B7256EC68E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeacherClient", "TeacherClient\TeacherClient.csproj", "{E3CE7B64-FB7C-4978-8247-85F1D0884E0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeacherClient", "TeacherClient\TeacherClient.csproj", "{E3CE7B64-FB7C-4978-8247-85F1D0884E0B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FB223BFF-4670-4C72-9693-3C734BA600DF}"
 EndProject

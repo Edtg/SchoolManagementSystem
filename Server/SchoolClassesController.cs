@@ -30,7 +30,7 @@ namespace Server
 
                 foreach (SchoolClass schoolClass in Classes)
                 {
-                    sw.WriteLine(schoolClass.Name + "|" + schoolClass.Date.ToString());
+                    sw.WriteLine(schoolClass.Name + "|" + schoolClass.Date.ToString() + "|" + schoolClass.ClassTeacher.Name);
                 }
                 sw.Flush();
                 return;
@@ -160,6 +160,40 @@ namespace Server
             catch (Exception Ex)
             {
                 Console.WriteLine("Updating Class Failed");
+            }
+            sw.WriteLine("fail");
+            sw.Flush();
+        }
+
+        public static void GetClassParents(Dictionary<string, string> Request, TcpClient Client)
+        {
+            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+
+            try
+            {
+                string SchoolClassName = Request["class"];
+                SchoolClass Class = Database.Instance.GetSchoolClasses().Where(c => c.Name.Equals(SchoolClassName)).First();
+
+                List<User> Parents = Database.Instance.GetParentsForClass(Class).ToList();
+
+                if (Parents.Count == 0)
+                {
+                    Console.WriteLine("No Students In Class");
+                    sw.WriteLine("empty");
+                    sw.Flush();
+                    return;
+                }
+
+                foreach (User Parent in Parents)
+                {
+                    sw.WriteLine(Parent.Name);
+                }
+                sw.Flush();
+                return;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Getting Class Parents Failed");
             }
             sw.WriteLine("fail");
             sw.Flush();

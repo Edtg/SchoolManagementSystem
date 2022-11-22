@@ -197,7 +197,7 @@
             this.Controls.Add(this.btn_Submit);
             this.Controls.Add(this.text_Input);
             this.Name = "frmMain";
-            this.Text = "Form1";
+            this.Text = "Parent Client";
             this.panel_ClassList.ResumeLayout(false);
             this.panel_ClassList.PerformLayout();
             this.panel_JoinClass.ResumeLayout(false);

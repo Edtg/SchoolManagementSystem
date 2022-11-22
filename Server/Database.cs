@@ -71,6 +71,7 @@ namespace Server
             Teachers = new List<User>();
             Students = new List<Student>();
             SchoolClasses = new List<SchoolClass>();
+            Messages = new List<Message>();
 
             Seed();
         }
@@ -116,6 +117,19 @@ namespace Server
         public IEnumerable<SchoolClass> GetSchoolClasses()
         {
             return SchoolClasses;
+        }
+
+        public IEnumerable<User> GetParentsForClass(SchoolClass Class)
+        {
+            List<User> Result = new List<User>();
+
+            foreach (var StudentMark in Class.StudentsMarks)
+            {
+                Student student = StudentMark.Key;
+                Result.Add(student.StudentParent);
+            }
+
+            return Result;
         }
 
         public Dictionary<string, int> GetStudentMarks(Student student)
@@ -169,5 +183,14 @@ namespace Server
                 UpdatedClass.JoinCode = NewCode;
         }
 
+        public IEnumerable<Message> GetMessages(User User1, User User2)
+        {
+            return Messages.Where(m => (m.Receivers.Contains(User1) && m.Sender.Equals(User2)) || ( m.Receivers.Contains(User2) && m.Sender.Equals(User1)) && !m.IsBroadcast).OrderBy(m => m.Timestamp).ToList();
+        }
+
+        public void CreateMessage(Message NewMessage)
+        {
+            Messages.Add(NewMessage);
+        }
     }
 }

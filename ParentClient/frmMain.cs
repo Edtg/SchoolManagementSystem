@@ -81,7 +81,9 @@ namespace ParentClient
 
         private void btn_MessagesMenu_Click(object sender, EventArgs e)
         {
+            frmMessages frm = new frmMessages();
 
+            frm.Show();
         }
     }
 }

@@ -32,13 +32,13 @@
             this.btn_BroadcastsMenu = new System.Windows.Forms.Button();
             this.btn_MessagesMenu = new System.Windows.Forms.Button();
             this.panel_ClassList = new System.Windows.Forms.Panel();
+            this.btn_NewClass = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cbo_SortBy = new System.Windows.Forms.ComboBox();
             this.panel_ClassTable = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_NewClass = new System.Windows.Forms.Button();
             this.panel_ClassList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,6 +85,15 @@
             this.panel_ClassList.Name = "panel_ClassList";
             this.panel_ClassList.Size = new System.Drawing.Size(776, 397);
             this.panel_ClassList.TabIndex = 3;
+            // 
+            // btn_NewClass
+            // 
+            this.btn_NewClass.Location = new System.Drawing.Point(3, 3);
+            this.btn_NewClass.Name = "btn_NewClass";
+            this.btn_NewClass.Size = new System.Drawing.Size(90, 23);
+            this.btn_NewClass.TabIndex = 6;
+            this.btn_NewClass.Text = "New Class";
+            this.btn_NewClass.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -137,6 +146,7 @@
             // 
             // panel_ClassTable
             // 
+            this.panel_ClassTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.panel_ClassTable.ColumnCount = 4;
             this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -150,15 +160,6 @@
             this.panel_ClassTable.Size = new System.Drawing.Size(770, 338);
             this.panel_ClassTable.TabIndex = 0;
             // 
-            // btn_NewClass
-            // 
-            this.btn_NewClass.Location = new System.Drawing.Point(3, 3);
-            this.btn_NewClass.Name = "btn_NewClass";
-            this.btn_NewClass.Size = new System.Drawing.Size(90, 23);
-            this.btn_NewClass.TabIndex = 6;
-            this.btn_NewClass.Text = "New Class";
-            this.btn_NewClass.UseVisualStyleBackColor = true;
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -169,7 +170,7 @@
             this.Controls.Add(this.btn_BroadcastsMenu);
             this.Controls.Add(this.btn_ViewClassesMenu);
             this.Name = "frmMain";
-            this.Text = "Form1";
+            this.Text = "Teacher Client";
             this.panel_ClassList.ResumeLayout(false);
             this.panel_ClassList.PerformLayout();
             this.ResumeLayout(false);

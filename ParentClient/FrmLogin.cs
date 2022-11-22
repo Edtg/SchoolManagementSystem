@@ -19,7 +19,6 @@ namespace ParentClient
             InitializeComponent();
 
             DialogResult = DialogResult.Cancel;
-            //client = new Client("127.0.0.1", 5555);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)

@@ -7,13 +7,12 @@ namespace TeacherClient
             InitializeComponent();
 
             HidePanels();
-            /*
+            
             frmLogin frmLogin = new frmLogin();
             if (frmLogin.ShowDialog() == DialogResult.Cancel)
             {
                 Close();
-            }*/
-            Session.Instance.TeacherName = "T1";
+            }
         }
 
         private void HidePanels()
@@ -38,7 +37,8 @@ namespace TeacherClient
 
         private void btn_MessagesMenu_Click(object sender, EventArgs e)
         {
-
+            frmMessages frm = new frmMessages();
+            frm.Show();
         }
 
         private void cbo_SortBy_SelectedIndexChanged(object sender, EventArgs e)
