@@ -104,9 +104,19 @@ namespace Server
             return Parents;
         }
 
+        public User? GetParent(string Name)
+        {
+            return Parents.Find(p => p.Name.Equals(Name));
+        }
+
         public IEnumerable<User> GetTeachers()
         {
             return Teachers;
+        }
+
+        public User? GetTeacher(string Name)
+        {
+            return Teachers.Find(t => t.Name.Equals(Name));
         }
 
         public IEnumerable<Student> GetStudents()
@@ -114,9 +124,19 @@ namespace Server
             return Students;
         }
 
+        public Student? GetStufent(string Name)
+        {
+            return Students.Find(s => s.Name.Equals(Name));
+        }
+
         public IEnumerable<SchoolClass> GetSchoolClasses()
         {
             return SchoolClasses;
+        }
+
+        public SchoolClass? GetSchoolClass(string Name)
+        {
+            return SchoolClasses.Find(c => c.Name.Equals(Name));
         }
 
         public IEnumerable<User> GetParentsForClass(SchoolClass Class)
@@ -190,7 +210,19 @@ namespace Server
 
         public void CreateMessage(Message NewMessage)
         {
+            NewMessage.IsBroadcast = false;
             Messages.Add(NewMessage);
+        }
+
+        public IEnumerable<Message> GetBroadcasts(User Receiver)
+        {
+            return Messages.Where(m => m.Receivers.Contains(Receiver) && m.IsBroadcast);
+        }
+
+        public void CreateBroadcast(Message NewBroadcast)
+        {
+            NewBroadcast.IsBroadcast = true;
+            Messages.Add(NewBroadcast);
         }
     }
 }

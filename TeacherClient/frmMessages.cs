@@ -21,7 +21,7 @@ namespace TeacherClient
 
         }
 
-        private System.Windows.Forms.Timer RefreshTimer;
+        private System.Windows.Forms.Timer UpdateTimer;
 
         private List<Message> SavedMessages;
 
@@ -50,26 +50,26 @@ namespace TeacherClient
 
                 cbo_Contacts.SelectedIndex = 0;
 
-                RefreshMessages();
+                LoadMessages();
 
-                RefreshTimer = new System.Windows.Forms.Timer();
-                RefreshTimer.Interval = 2000;
-                RefreshTimer.Tick += new EventHandler(RefreshTick);
-                RefreshTimer.Start();
+                UpdateTimer = new System.Windows.Forms.Timer();
+                UpdateTimer.Interval = 2000;
+                UpdateTimer.Tick += new EventHandler(LoadTick);
+                UpdateTimer.Start();
             }
         }
 
         private void cbo_Contacts_SelectedIndexChanged(object sender, EventArgs e)
         {
-            RefreshMessages();
+            LoadMessages();
         }
 
-        private void RefreshTick(object sender, EventArgs e)
+        private void LoadTick(object sender, EventArgs e)
         {
             UpdateMessages();
         }
 
-        private void RefreshMessages()
+        private void LoadMessages()
         {
             SavedMessages.Clear();
             foreach (Label ClassTableControl in panel_Messages.Controls.OfType<Label>().ToList())
@@ -146,19 +146,19 @@ namespace TeacherClient
 
         private void frmMessages_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (RefreshTimer != null)
+            if (UpdateTimer != null)
             {
-                RefreshTimer.Stop();
-                RefreshTimer.Tick -= new EventHandler(RefreshTick);
+                UpdateTimer.Stop();
+                UpdateTimer.Tick -= new EventHandler(LoadTick);
             }
         }
 
         private void frmMessages_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (RefreshTimer != null)
+            if (UpdateTimer != null)
             {
-                RefreshTimer.Dispose();
-                RefreshTimer = null;
+                UpdateTimer.Dispose();
+                UpdateTimer = null;
             }
         }
     }

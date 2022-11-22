@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -26,7 +27,12 @@ namespace Server
                     Classes = Classes.OrderBy(c => c.Date).ToList();
                 }
 
-                sw.WriteLine("class|date");
+                if (Classes.Count == 0)
+                {
+                    sw.WriteLine("empty");
+                    sw.Flush();
+                    return;
+                }
 
                 foreach (SchoolClass schoolClass in Classes)
                 {
@@ -117,17 +123,30 @@ namespace Server
         {
             StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
 
-            User Teacher = Database.Instance.GetTeachers().Where(t => t.Name.Equals(Request["teacher"])).First();
-            SchoolClass NewClass = new SchoolClass() {
-                Name = Request["name"],
-                ClassTeacher = Teacher,
-                Date = new DateTime(Int32.Parse(Request["year"]),
-                Int32.Parse(Request["month"]), Int32.Parse(Request["day"])),
-                StudentsMarks = new Dictionary<Student, int>(),
-                JoinCode = Request["code"]
-            };
+            try
+            {
+                User Teacher = Database.Instance.GetTeachers().Where(t => t.Name.Equals(Request["teacher"])).First();
+                SchoolClass NewClass = new SchoolClass()
+                {
+                    Name = Request["name"],
+                    ClassTeacher = Teacher,
+                    Date = DateTime.ParseExact(Request["date"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture),
+                    StudentsMarks = new Dictionary<Student, int>(),
+                    JoinCode = Request["code"]
+                };
 
-            Database.Instance.CreateSchoolClassClass(NewClass);
+                Database.Instance.CreateSchoolClassClass(NewClass);
+
+                sw.WriteLine("success");
+                sw.Flush();
+                return;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Updating Class Failed");
+            }
+            sw.WriteLine("fail");
+            sw.Flush();
         }
 
         public static void UpdateClass(Dictionary<string, string> Request, TcpClient Client)

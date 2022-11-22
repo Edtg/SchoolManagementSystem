@@ -42,6 +42,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btn_JoinClass = new System.Windows.Forms.Button();
             this.text_JoinCode = new System.Windows.Forms.TextBox();
+            this.panel_Broadcasts = new System.Windows.Forms.FlowLayoutPanel();
             this.panel_ClassList.SuspendLayout();
             this.panel_JoinClass.SuspendLayout();
             this.SuspendLayout();
@@ -183,11 +184,20 @@
             this.text_JoinCode.Size = new System.Drawing.Size(118, 23);
             this.text_JoinCode.TabIndex = 0;
             // 
+            // panel_Broadcasts
+            // 
+            this.panel_Broadcasts.AutoScroll = true;
+            this.panel_Broadcasts.Location = new System.Drawing.Point(12, 40);
+            this.panel_Broadcasts.Name = "panel_Broadcasts";
+            this.panel_Broadcasts.Size = new System.Drawing.Size(776, 398);
+            this.panel_Broadcasts.TabIndex = 8;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.panel_Broadcasts);
             this.Controls.Add(this.panel_JoinClass);
             this.Controls.Add(this.btn_MessagesMenu);
             this.Controls.Add(this.btn_ViewBroadcastsMenu);
@@ -223,5 +233,6 @@
         private Label label3;
         private Button btn_JoinClass;
         private TextBox text_JoinCode;
+        private FlowLayoutPanel panel_Broadcasts;
     }
 }

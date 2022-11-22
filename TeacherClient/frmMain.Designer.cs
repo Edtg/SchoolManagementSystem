@@ -94,6 +94,7 @@
             this.btn_NewClass.TabIndex = 6;
             this.btn_NewClass.Text = "New Class";
             this.btn_NewClass.UseVisualStyleBackColor = true;
+            this.btn_NewClass.Click += new System.EventHandler(this.btn_NewClass_Click);
             // 
             // label4
             // 

@@ -76,6 +76,7 @@
             this.text_Password.Name = "text_Password";
             this.text_Password.Size = new System.Drawing.Size(171, 23);
             this.text_Password.TabIndex = 4;
+            this.text_Password.UseSystemPasswordChar = true;
             // 
             // frmLogin
             // 
@@ -87,7 +88,10 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btn_Login);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmLogin";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();

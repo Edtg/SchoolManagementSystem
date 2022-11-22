@@ -19,6 +19,7 @@ namespace ParentClient
         {
             panel_ClassList.Visible = false;
             panel_JoinClass.Visible = false;
+            panel_Broadcasts.Visible = false;
         }
 
         private void btn_Submit_Click(object sender, EventArgs e)
@@ -44,22 +45,25 @@ namespace ParentClient
 
             panel_ClassTable.RowCount = 0;
             List<string> Classes = Client.Instance.SendData("instruction=parentclasses|sort=date|parent=" + Session.Instance.ParentName);
-            
-            panel_ClassTable.RowCount = Classes.Count - 1;
-            for (int i = 1; i < Classes.Count; i++)
+
+            if (Classes[0] != "empty")
             {
-                string ClassName = Classes[i].Split("|")[0];
-                string ClassDate = Classes[i].Split("|")[1];
+                panel_ClassTable.RowCount = Classes.Count - 1;
+                for (int i = 0; i < Classes.Count; i++)
+                {
+                    string ClassName = Classes[i].Split("|")[0];
+                    string ClassDate = Classes[i].Split("|")[1];
 
-                Label ClassNameLabel = new Label();
-                ClassNameLabel.Text = ClassName;
-                panel_ClassTable.Controls.Add(ClassNameLabel, 0, i - 1);
+                    Label ClassNameLabel = new Label();
+                    ClassNameLabel.Text = ClassName;
+                    panel_ClassTable.Controls.Add(ClassNameLabel, 0, i);
 
-                Label ClassDateLabel = new Label();
-                ClassDateLabel.Text = ClassDate;
-                panel_ClassTable.Controls.Add(ClassDateLabel, 1, i - 1);
+                    Label ClassDateLabel = new Label();
+                    ClassDateLabel.Text = ClassDate;
+                    panel_ClassTable.Controls.Add(ClassDateLabel, 1, i);
 
-                panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 20));
+                    panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 20));
+                }
             }
         }
 
@@ -76,7 +80,38 @@ namespace ParentClient
 
         private void btn_ViewBroadcastsMenu_Click(object sender, EventArgs e)
         {
+            HidePanels();
 
+            LoadBroadcasts();
+
+            panel_Broadcasts.Visible = true;
+        }
+
+        private void LoadBroadcasts()
+        {
+            foreach (Label ClassTableControl in panel_Broadcasts.Controls.OfType<Label>().ToList())
+            {
+                panel_Broadcasts.Controls.Remove(ClassTableControl);
+                ClassTableControl.Dispose();
+            }
+
+            List<string> Broadcasts = Client.Instance.SendData("instruction=getbroadcasts|parent=" + Session.Instance.ParentName);
+
+            if (Broadcasts[0] == "empty")
+            {
+                // New Label saying empty
+                Label EmptyLabel = new Label();
+                EmptyLabel.Text = "No broadcasts";
+                EmptyLabel.Width = panel_Broadcasts.Width;
+                panel_Broadcasts.Controls.Add(EmptyLabel);
+            }
+            else
+            {
+                foreach (string Broadcast in Broadcasts)
+                {
+                    // New label for each broadcast (copy messages)
+                }
+            }
         }
 
         private void btn_MessagesMenu_Click(object sender, EventArgs e)

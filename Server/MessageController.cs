@@ -22,13 +22,13 @@ namespace Server
                 User Sender;
                 if (UserType.Equals("parent"))
                 {
-                    user = Database.Instance.GetParents().Where(p => p.Name.Equals(Username)).First();
-                    Sender = Database.Instance.GetTeachers().Where(t => t.Name.Equals(SenderName)).First();
+                    user = Database.Instance.GetParent(Username);
+                    Sender = Database.Instance.GetTeacher(SenderName);
                 }
                 else if (UserType.Equals("teacher"))
                 {
-                    user = Database.Instance.GetTeachers().Where(t => t.Name.Equals(Username)).First();
-                    Sender = Database.Instance.GetParents().Where(p => p.Name.Equals(SenderName)).First();
+                    user = Database.Instance.GetTeacher(Username);
+                    Sender = Database.Instance.GetParent(SenderName);
                 }
                 else
                 {
@@ -75,11 +75,11 @@ namespace Server
                 User Sender;
                 if (SenderType.Equals("parent"))
                 {
-                    Sender = Database.Instance.GetParents().Where(p => p.Name.Equals(SenderName)).First();
+                    Sender = Database.Instance.GetParent(SenderName);
                 }
                 else if (SenderType.Equals("teacher"))
                 {
-                    Sender = Database.Instance.GetTeachers().Where(t => t.Name.Equals(SenderName)).First();
+                    Sender = Database.Instance.GetTeacher(SenderName);
                 }
                 else
                 {
@@ -98,11 +98,11 @@ namespace Server
                     User Receiver;
                     if (SenderType.Equals("parent"))
                     {
-                        Receiver = Database.Instance.GetTeachers().Where(t => t.Name.Equals(ReceiverName)).First();
+                        Receiver = Database.Instance.GetTeacher(ReceiverName);
                     }
                     else if (SenderType.Equals("teacher"))
                     {
-                        Receiver = Database.Instance.GetParents().Where(p => p.Name.Equals(ReceiverName)).First();
+                        Receiver = Database.Instance.GetParent(ReceiverName);
                     }
                     else
                     {
@@ -142,11 +142,76 @@ namespace Server
         public static void SendBroadcast(Dictionary<string, string> Request, TcpClient Client)
         {
             StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+
+            try
+            {
+                string SenderName = Request["sender"];
+                User Sender = Database.Instance.GetTeacher(SenderName);
+
+                SchoolClass Class = Database.Instance.GetSchoolClass(Request["classname"]);
+
+                List<User> Receivers = new List<User>();
+
+                foreach (Student student in Class.StudentsMarks.Keys)
+                {
+                    Receivers.Add(student.StudentParent);
+                }
+
+                string MessageContent = Request["content"];
+                DateTime CurrentDate = DateTime.Now;
+
+                Message NewMessage = new Message();
+                NewMessage.Sender = Sender;
+                NewMessage.Receivers = Receivers;
+                NewMessage.Content = MessageContent;
+                NewMessage.Timestamp = CurrentDate;
+                NewMessage.IsBroadcast = true;
+
+                Database.Instance.CreateMessage(NewMessage);
+                Console.WriteLine("Broadcast Sent");
+                sw.WriteLine("success");
+                sw.Flush();
+                return;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Create Broadcast Failed");
+            }
+            sw.WriteLine("fail");
+            sw.Flush();
         }
 
         public static void GetBroadcasts(Dictionary<string, string> Request, TcpClient Client)
         {
             StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+
+            try
+            {
+                string ReceiverName = Request["parent"];
+                User Receiver = Database.Instance.GetParent(ReceiverName);
+
+                List<Message> Broadcasts = Database.Instance.GetBroadcasts(Receiver).ToList();
+
+                if (Broadcasts.Count == 0)
+                {
+                    sw.WriteLine("empty");
+                    sw.Flush();
+                    return;
+                }
+
+                foreach (Message Broadcast in Broadcasts)
+                {
+                    sw.WriteLine(Broadcast.Sender + "," + Broadcast.Content + "," + Broadcast.Timestamp);
+                }
+                sw.Flush();
+                return;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Get Broadcasts Failed");
+            }
+            sw.WriteLine("fail");
+            sw.Flush();
         }
     }
 }

@@ -103,5 +103,14 @@ namespace TeacherClient
                 panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
             }
         }
+
+        private void btn_NewClass_Click(object sender, EventArgs e)
+        {
+            frmNewClass frm = new frmNewClass();
+
+            frm.ShowDialog();
+
+            UpdateClassTable();
+        }
     }
 }

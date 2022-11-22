@@ -67,6 +67,12 @@ namespace Server
                 case "sendmessage":
                     MessageController.SendMessage(ParsedRequest, Client);
                     break;
+                case "getbroadcasts":
+                    MessageController.GetBroadcasts(ParsedRequest, Client);
+                    break;
+                case "sendbroadcast":
+                    MessageController.SendBroadcast(ParsedRequest, Client);
+                    break;
 
 
 
