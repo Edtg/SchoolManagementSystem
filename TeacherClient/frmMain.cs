@@ -112,5 +112,10 @@ namespace TeacherClient
 
             UpdateClassTable();
         }
+
+        private void btn_SetDate_Click(object sender, EventArgs e)
+        {
+            Client.Instance.SendData("instruction=setsimulateddate|date=" + date_SimulationDate.Value.ToString("yyyyMMdd:HH:mm:ss"));
+        }
     }
 }

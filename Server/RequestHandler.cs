@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -72,6 +73,9 @@ namespace Server
                     break;
                 case "sendbroadcast":
                     MessageController.SendBroadcast(ParsedRequest, Client);
+                    break;
+                case "setsimulateddate":
+                    Session.Instance.SimulatedDate = DateTime.ParseExact(ParsedRequest["date"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
                     break;
 
 
