@@ -10,9 +10,10 @@ namespace Server
 {
     internal class SchoolClassesController
     {
-        public static void GetParentClasses(Dictionary<string, string> Request, TcpClient Client)
+        #region Parent functions
+        public static List<string> GetParentClasses(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -24,34 +25,37 @@ namespace Server
 
                 if (SortBy.Equals("date"))
                 {
-                    Classes = Classes.OrderBy(c => c.Date).ToList();
+                    Classes = Classes.OrderBy(c => c.StartDate).ToList();
                 }
 
                 if (Classes.Count == 0)
                 {
-                    sw.WriteLine("empty");
-                    sw.Flush();
-                    return;
+                    Response.Add("empty");
+                    return Response;
                 }
 
                 foreach (SchoolClass schoolClass in Classes)
                 {
-                    sw.WriteLine(schoolClass.Name + "|" + schoolClass.Date.ToString() + "|" + schoolClass.ClassTeacher.Name);
+                    int Marks = -1;
+                    if (Session.Instance.SimulatedDate >= schoolClass.EndDate)
+                    {
+                        schoolClass.StudentsMarks.TryGetValue(student, out Marks);
+                    }
+                    Response.Add(schoolClass.Name + "|" + schoolClass.StartDate.ToString("yyyyMMdd:HH:mm:ss") + "|" + schoolClass.EndDate.ToString("yyyyMMdd:HH:mm:ss") + "|" + schoolClass.ClassTeacher.Name + "|" + Marks.ToString());
                 }
-                sw.Flush();
-                return;
+                return Response;
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Get Classes Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void JoinClass(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> JoinClass(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -65,22 +69,25 @@ namespace Server
                 {
                     schoolClass.StudentsMarks.Add(student, -1);
                     Console.WriteLine("Student joined " + schoolClass.Name);
-                    sw.WriteLine("success");
-                    sw.Flush();
-                    return;
+                    Response.Add("success");
+                    return Response;
                 }
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Join Class Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void GetTeacherClasses(Dictionary<string, string> Request, TcpClient Client)
+        #endregion
+
+        #region Teacher functions
+
+        public static List<string> GetTeacherClasses(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -95,33 +102,72 @@ namespace Server
                 }
                 else if (SortBy.Equals("date"))
                 {
-                    Classes = Classes.OrderBy(c => c.Date).ToList();
+                    Classes = Classes.OrderBy(c => c.StartDate).ToList();
                 }
                 else if (SortBy.Equals("students"))
                 {
                     Classes = Classes.OrderByDescending(c => c.StudentsMarks.Count).ToList();
                 }
 
-                sw.WriteLine("class|date|students");
-
                 foreach (SchoolClass schoolClass in Classes)
                 {
-                    sw.WriteLine(schoolClass.Name + "|" + schoolClass.Date.ToString() + "|" + schoolClass.StudentsMarks.Count.ToString());
+                    Response.Add(schoolClass.Name + "|" + schoolClass.StartDate.ToString("yyyyMMdd:HH:mm:ss") + "|" + schoolClass.StudentsMarks.Count.ToString());
                 }
-                sw.Flush();
-                return;
+                return Response;
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Get Classes Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void CreateClass(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> GetClassInfo(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
+
+            try
+            {
+                SchoolClass schoolClass = Database.Instance.GetSchoolClass(Request["classname"]);
+                Response.Add(schoolClass.Name + "|" + schoolClass.StartDate.ToString("yyyyMMdd:HH:mm:ss") + "|" + schoolClass.EndDate.ToString("yyyyMMdd:HH:mm:ss") + "|" + schoolClass.JoinCode);
+
+                return Response;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Get Class Failed");
+            }
+            Response.Add("fail");
+            return Response;
+        }
+
+        public static List<string> GetClassMarks(Dictionary<string, string> Request)
+        {
+            List<string> Response = new List<string>();
+
+            try
+            {
+                SchoolClass schoolClass = Database.Instance.GetSchoolClass(Request["classname"]);
+                
+                foreach(var Marks in schoolClass.StudentsMarks)
+                {
+                    Response.Add(Marks.Key + "|" + Marks.Value);
+                }
+
+                return Response;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Get Class Failed");
+            }
+            Response.Add("fail");
+            return Response;
+        }
+
+        public static List<string> CreateClass(Dictionary<string, string> Request)
+        {
+            List<string> Response = new List<string>();
 
             try
             {
@@ -130,28 +176,28 @@ namespace Server
                 {
                     Name = Request["name"],
                     ClassTeacher = Teacher,
-                    Date = DateTime.ParseExact(Request["date"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture),
+                    StartDate = DateTime.ParseExact(Request["date"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture),
+                    EndDate = DateTime.ParseExact(Request["enddate"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture),
                     StudentsMarks = new Dictionary<Student, int>(),
                     JoinCode = Request["code"]
                 };
 
                 Database.Instance.CreateSchoolClassClass(NewClass);
 
-                sw.WriteLine("success");
-                sw.Flush();
-                return;
+                Response.Add("success");
+                return Response;
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Updating Class Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void UpdateClass(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> UpdateClass(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -169,24 +215,30 @@ namespace Server
                 }
                 if (Request.ContainsKey("year") && Request.ContainsKey("month") && Request.ContainsKey("day"))
                 {
-                    Database.Instance.UpdateSchoolClassDate(UpdatingClass, new DateTime(Int32.Parse(Request["year"]), Int32.Parse(Request["month"]), Int32.Parse(Request["day"])));
+                    Database.Instance.UpdateSchoolClassStartDate(UpdatingClass, new DateTime(Int32.Parse(Request["year"]), Int32.Parse(Request["month"]), Int32.Parse(Request["day"])));
+                }
+                if (Request.ContainsKey("endyear") && Request.ContainsKey("endmonth") && Request.ContainsKey("endday"))
+                {
+                    Database.Instance.UpdateSchoolClassEndDate(UpdatingClass, new DateTime(Int32.Parse(Request["endyear"]), Int32.Parse(Request["endmonth"]), Int32.Parse(Request["endday"])));
                 }
                 if (Request.ContainsKey("code"))
                 {
                     Database.Instance.UpdateSchoolClassCode(UpdatingClass, Request["code"]);
                 }
+                Response.Add("success");
+                return Response;
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Updating Class Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void GetClassParents(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> GetClassParents(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -198,24 +250,24 @@ namespace Server
                 if (Parents.Count == 0)
                 {
                     Console.WriteLine("No Students In Class");
-                    sw.WriteLine("empty");
-                    sw.Flush();
-                    return;
+                    Response.Add("empty");
+                    return Response;
                 }
 
                 foreach (User Parent in Parents)
                 {
-                    sw.WriteLine(Parent.Name);
+                    Response.Add(Parent.Name);
                 }
-                sw.Flush();
-                return;
+                return Response;
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Getting Class Parents Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
+
+        #endregion
     }
 }

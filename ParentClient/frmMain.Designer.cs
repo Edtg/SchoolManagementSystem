@@ -31,6 +31,7 @@
             this.text_Input = new System.Windows.Forms.TextBox();
             this.btn_Submit = new System.Windows.Forms.Button();
             this.panel_ClassList = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel_ClassTable = new System.Windows.Forms.TableLayoutPanel();
@@ -43,6 +44,7 @@
             this.btn_JoinClass = new System.Windows.Forms.Button();
             this.text_JoinCode = new System.Windows.Forms.TextBox();
             this.panel_Broadcasts = new System.Windows.Forms.FlowLayoutPanel();
+            this.label5 = new System.Windows.Forms.Label();
             this.panel_ClassList.SuspendLayout();
             this.panel_JoinClass.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +68,8 @@
             // 
             // panel_ClassList
             // 
+            this.panel_ClassList.Controls.Add(this.label5);
+            this.panel_ClassList.Controls.Add(this.label4);
             this.panel_ClassList.Controls.Add(this.label2);
             this.panel_ClassList.Controls.Add(this.label1);
             this.panel_ClassList.Controls.Add(this.panel_ClassTable);
@@ -74,14 +78,23 @@
             this.panel_ClassList.Size = new System.Drawing.Size(776, 397);
             this.panel_ClassList.TabIndex = 2;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(664, 11);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 15);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Marks";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(485, 11);
+            this.label2.Location = new System.Drawing.Point(293, 11);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 15);
+            this.label2.Size = new System.Drawing.Size(58, 15);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Date";
+            this.label2.Text = "Start Date";
             // 
             // label1
             // 
@@ -96,10 +109,11 @@
             // 
             this.panel_ClassTable.AutoScroll = true;
             this.panel_ClassTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.panel_ClassTable.ColumnCount = 2;
-            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 61.03896F));
-            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38.96104F));
-            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 259F));
+            this.panel_ClassTable.ColumnCount = 4;
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.2437F));
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.7563F));
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 179F));
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
             this.panel_ClassTable.Location = new System.Drawing.Point(3, 40);
             this.panel_ClassTable.Name = "panel_ClassTable";
             this.panel_ClassTable.RowCount = 1;
@@ -192,18 +206,27 @@
             this.panel_Broadcasts.Size = new System.Drawing.Size(776, 398);
             this.panel_Broadcasts.TabIndex = 8;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(488, 11);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 15);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "End Date";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.panel_ClassList);
             this.Controls.Add(this.panel_Broadcasts);
             this.Controls.Add(this.panel_JoinClass);
             this.Controls.Add(this.btn_MessagesMenu);
             this.Controls.Add(this.btn_ViewBroadcastsMenu);
             this.Controls.Add(this.btn_JoinClassMenu);
             this.Controls.Add(this.btn_ClassListMenu);
-            this.Controls.Add(this.panel_ClassList);
             this.Controls.Add(this.btn_Submit);
             this.Controls.Add(this.text_Input);
             this.Name = "frmMain";
@@ -234,5 +257,7 @@
         private Button btn_JoinClass;
         private TextBox text_JoinCode;
         private FlowLayoutPanel panel_Broadcasts;
+        private Label label4;
+        private Label label5;
     }
 }

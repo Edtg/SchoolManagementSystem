@@ -31,7 +31,7 @@ namespace ParentClient
 
             List<string> Classes = Client.Instance.SendData("instruction=parentclasses|sort=date|parent=" + Session.Instance.ParentName);
 
-            for (int i = 1; i < Classes.Count; i++)
+            for (int i = 0; i < Classes.Count; i++)
             {
                 string Teacher = Classes[i].Split("|")[2];
                 cbo_Contacts.Items.Add(Teacher);
@@ -102,7 +102,7 @@ namespace ParentClient
             foreach (string Message in Messages)
             {
                 DateTime MessageTime = DateTime.ParseExact(Message.Split("|")[2], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
-                if (MessageTime > SavedMessages[SavedMessages.Count - 1].Timestamp)
+                if (SavedMessages.Count == 0 || MessageTime > SavedMessages[SavedMessages.Count - 1].Timestamp)
                 {
                     string SenderName = Message.Split("|")[0];
                     string MessageContent = Message.Split("|")[1];

@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace ParentClient
 {
     public partial class frmMain : Form
@@ -52,15 +54,28 @@ namespace ParentClient
                 for (int i = 0; i < Classes.Count; i++)
                 {
                     string ClassName = Classes[i].Split("|")[0];
-                    string ClassDate = Classes[i].Split("|")[1];
+                    DateTime ClassDate = DateTime.ParseExact(Classes[i].Split("|")[1], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
+                    int Marks = -1;
+                    Int32.TryParse(Classes[i].Split("|")[4], out Marks);
 
                     Label ClassNameLabel = new Label();
                     ClassNameLabel.Text = ClassName;
                     panel_ClassTable.Controls.Add(ClassNameLabel, 0, i);
 
                     Label ClassDateLabel = new Label();
-                    ClassDateLabel.Text = ClassDate;
+                    ClassDateLabel.Text = ClassDate.ToString();
                     panel_ClassTable.Controls.Add(ClassDateLabel, 1, i);
+
+                    Label MarksLabel = new Label();
+                    if (Marks < 0)
+                    {
+                        MarksLabel.Text = "Unmarked";
+                    }
+                    else
+                    {
+                        MarksLabel.Text = Marks.ToString();
+                    }
+                    panel_ClassTable.Controls.Add(MarksLabel, 2, i);
 
                     panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 20));
                 }
@@ -99,7 +114,6 @@ namespace ParentClient
 
             if (Broadcasts[0] == "empty")
             {
-                // New Label saying empty
                 Label EmptyLabel = new Label();
                 EmptyLabel.Text = "No broadcasts";
                 EmptyLabel.Width = panel_Broadcasts.Width;
@@ -109,7 +123,10 @@ namespace ParentClient
             {
                 foreach (string Broadcast in Broadcasts)
                 {
-                    // New label for each broadcast (copy messages)
+                    Label BroadcastLabel = new Label();
+                    BroadcastLabel.Text = Broadcast.Split(",")[0] + ": " + Broadcast.Split(",")[1];
+                    BroadcastLabel.Width = panel_Broadcasts.Width;
+                    panel_Broadcasts.Controls.Add(BroadcastLabel);
                 }
             }
         }

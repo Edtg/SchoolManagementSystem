@@ -16,12 +16,16 @@ namespace TeacherClient
         {
             InitializeComponent();
 
-            date_ClassDate.Value = DateTime.Now;
+            date_ClassStartDate.Value = DateTime.Now;
         }
 
         private void btn_Create_Click(object sender, EventArgs e)
         {
-            Client.Instance.SendData("instruction=createclass|name=" + text_ClassName.Text + "|date=" + date_ClassDate.Value.ToString("yyyyMMdd:HH:mm:ss") + "|teacher=" + Session.Instance.TeacherName + "|code=" + text_JoinCode.Text);
+            Client.Instance.SendData("instruction=createclass|name=" + text_ClassName.Text
+                + "|date=" + date_ClassStartDate.Value.ToString("yyyyMMdd:HH:mm:ss")
+                + "|enddate=" + date_ClassEndDate.Value.ToString("yyyyMMdd:HH:mm:ss")
+                + "|teacher=" + Session.Instance.TeacherName
+                + "|code=" + text_JoinCode.Text);
 
             Close();
         }

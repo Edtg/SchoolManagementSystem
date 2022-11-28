@@ -36,43 +36,51 @@ namespace Server
 
             StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
 
+            List<string> Response = new List<string>();
+
             switch (ParsedRequest["instruction"])
             {
                 case "loginparent":
-                    LoginController.LoginParent(ParsedRequest, Client);
+                    Response = LoginController.LoginParent(ParsedRequest);
                     break;
                 case "loginteacher":
-                    LoginController.LoginTeacher(ParsedRequest, Client);
+                    Response = LoginController.LoginTeacher(ParsedRequest);
                     break;
                 case "parentclasses":
-                    SchoolClassesController.GetParentClasses(ParsedRequest, Client);
+                    Response = SchoolClassesController.GetParentClasses(ParsedRequest);
                     break;
                 case "joinclass":
-                    SchoolClassesController.JoinClass(ParsedRequest, Client);
+                    Response = SchoolClassesController.JoinClass(ParsedRequest);
                     break;
                 case "teacherclasses":
-                    SchoolClassesController.GetTeacherClasses(ParsedRequest, Client);
+                    Response = SchoolClassesController.GetTeacherClasses(ParsedRequest);
+                    break;
+                case "getclass":
+                    Response = SchoolClassesController.GetClassInfo(ParsedRequest);
+                    break;
+                case "getclassmarks":
+                    Response = SchoolClassesController.GetClassMarks(ParsedRequest);
                     break;
                 case "createclass":
-                    SchoolClassesController.CreateClass(ParsedRequest, Client);
+                    Response = SchoolClassesController.CreateClass(ParsedRequest);
                     break;
                 case "updateclass":
-                    SchoolClassesController.UpdateClass(ParsedRequest, Client);
+                    Response = SchoolClassesController.UpdateClass(ParsedRequest);
                     break;
                 case "classparents":
-                    SchoolClassesController.GetClassParents(ParsedRequest, Client);
+                    Response = SchoolClassesController.GetClassParents(ParsedRequest);
                     break;
                 case "getmessages":
-                    MessageController.GetMesages(ParsedRequest, Client);
+                    Response = MessageController.GetMesages(ParsedRequest);
                     break;
                 case "sendmessage":
-                    MessageController.SendMessage(ParsedRequest, Client);
+                    Response = MessageController.SendMessage(ParsedRequest);
                     break;
                 case "getbroadcasts":
-                    MessageController.GetBroadcasts(ParsedRequest, Client);
+                    Response = MessageController.GetBroadcasts(ParsedRequest);
                     break;
                 case "sendbroadcast":
-                    MessageController.SendBroadcast(ParsedRequest, Client);
+                    Response = MessageController.SendBroadcast(ParsedRequest);
                     break;
                 case "setsimulateddate":
                     Session.Instance.SimulatedDate = DateTime.ParseExact(ParsedRequest["date"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
@@ -81,12 +89,15 @@ namespace Server
 
 
                 default:
-                    sw.WriteLine("invalid");
-                    sw.Flush();
+                    Response.Add("invalid");
                     break;
             }
 
-            
+            foreach (var response in Response)
+            {
+                sw.WriteLine(response.ToString());
+            }
+            sw.Flush();
         }
 
         public static Dictionary<string, string> ParseRequest(string request)

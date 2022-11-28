@@ -22,7 +22,8 @@ namespace Server
     {
         public string Name { get; set; }
         public User ClassTeacher { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public Dictionary<Student, int> StudentsMarks { get; set; }
         public string JoinCode { get; set; }
     }
@@ -90,13 +91,13 @@ namespace Server
             Teachers.Add(new User { Name = "T2", Password = "12345" });
 
             Dictionary<Student, int> Class1Marks = new Dictionary<Student, int>();
-            SchoolClasses.Add(new SchoolClass { Name = "Class 1", ClassTeacher = Teachers[0], Date = new DateTime(2022, 12, 1), StudentsMarks = Class1Marks, JoinCode = "C1" });
+            SchoolClasses.Add(new SchoolClass { Name = "Class 1", ClassTeacher = Teachers[0], StartDate = new DateTime(2022, 12, 1), EndDate = new DateTime(2022, 12, 9), StudentsMarks = Class1Marks, JoinCode = "C1" });
 
             Dictionary<Student, int> Class2Marks = new Dictionary<Student, int>();
-            SchoolClasses.Add(new SchoolClass { Name = "Class 2", ClassTeacher = Teachers[1], Date = new DateTime(2022, 12, 3), StudentsMarks = Class2Marks, JoinCode = "C2" });
+            SchoolClasses.Add(new SchoolClass { Name = "Class 2", ClassTeacher = Teachers[1], StartDate = new DateTime(2022, 12, 3), EndDate = new DateTime(2022, 12, 10), StudentsMarks = Class2Marks, JoinCode = "C2" });
 
             Dictionary<Student, int> Class3Marks = new Dictionary<Student, int>();
-            SchoolClasses.Add(new SchoolClass { Name = "Class 3", ClassTeacher = Teachers[0], Date = new DateTime(2022, 12, 2), StudentsMarks = Class3Marks, JoinCode = "C3" });
+            SchoolClasses.Add(new SchoolClass { Name = "Class 3", ClassTeacher = Teachers[0], StartDate = new DateTime(2022, 12, 2), EndDate = new DateTime(2022, 12, 12), StudentsMarks = Class3Marks, JoinCode = "C3" });
         }
 
         public IEnumerable<User> GetParents()
@@ -187,12 +188,20 @@ namespace Server
                 UpdatedClass.ClassTeacher = NewTeacher;
         }
 
-        public void UpdateSchoolClassDate(SchoolClass Class, DateTime NewDate)
+        public void UpdateSchoolClassStartDate(SchoolClass Class, DateTime NewDate)
         {
             SchoolClass UpdatedClass = SchoolClasses.Find(c => c.Equals(Class));
 
             if (UpdatedClass != null)
-                UpdatedClass.Date = NewDate;
+                UpdatedClass.StartDate = NewDate;
+        }
+
+        public void UpdateSchoolClassEndDate(SchoolClass Class, DateTime NewDate)
+        {
+            SchoolClass UpdatedClass = SchoolClasses.Find(c => c.Equals(Class));
+
+            if (UpdatedClass != null)
+                UpdatedClass.EndDate = NewDate;
         }
 
         public void UpdateSchoolClassCode(SchoolClass Class, string NewCode)

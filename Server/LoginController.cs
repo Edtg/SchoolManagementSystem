@@ -9,9 +9,9 @@ namespace Server
 {
     internal class LoginController
     {
-        public static void LoginParent(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> LoginParent(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -21,9 +21,8 @@ namespace Server
                 if (parent.Password.Equals(password))
                 {
                     Console.WriteLine("Login Successful");
-                    sw.WriteLine("success");
-                    sw.Flush();
-                    return;
+                    Response.Add("success");
+                    return Response;
                 }
                 else
                 {
@@ -34,13 +33,13 @@ namespace Server
             {
                 Console.WriteLine("Parent Login Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void LoginTeacher(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> LoginTeacher(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -50,9 +49,8 @@ namespace Server
                 if (teacher.Password.Equals(password))
                 {
                     Console.WriteLine("Login Successful");
-                    sw.WriteLine("success");
-                    sw.Flush();
-                    return;
+                    Response.Add("success");
+                    return Response;
                 }
                 else
                 {
@@ -63,8 +61,8 @@ namespace Server
             {
                 Console.WriteLine("Teacher Login Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
     }

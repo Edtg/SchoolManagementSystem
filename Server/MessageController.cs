@@ -9,9 +9,9 @@ namespace Server
 {
     internal class MessageController
     {
-        public static void GetMesages(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> GetMesages(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -33,9 +33,8 @@ namespace Server
                 else
                 {
                     Console.WriteLine("Get Messages Failed");
-                    sw.WriteLine("fail");
-                    sw.Flush();
-                    return;
+                    Response.Add("fail");
+                    return Response;
                 }
 
                 List<Message> Messages = Database.Instance.GetMessages(user, Sender).ToList();
@@ -44,29 +43,27 @@ namespace Server
                 {
                     foreach(Message Message in Messages)
                     {
-                        sw.WriteLine(Message.Sender.Name + "|" + Message.Content + "|" + Message.Timestamp.ToString("yyyyMMdd:HH:mm:ss"));
+                        Response.Add(Message.Sender.Name + "|" + Message.Content + "|" + Message.Timestamp.ToString("yyyyMMdd:HH:mm:ss"));
                     }
-                    sw.Flush();
-                    return;
+                    return Response;
                 }
                 else
                 {
-                    sw.WriteLine("empty");
-                    sw.Flush();
-                    return;
+                    Response.Add("empty");
+                    return Response;
                 }
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Send Message Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void SendMessage(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> SendMessage(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -84,9 +81,8 @@ namespace Server
                 else
                 {
                     Console.WriteLine("Send Message Failed");
-                    sw.WriteLine("fail");
-                    sw.Flush();
-                    return;
+                    Response.Add("fail");
+                    return Response;
                 }
 
                 List<string> ReceiversNames = Request["receivers"].Split(",").ToList();
@@ -107,9 +103,8 @@ namespace Server
                     else
                     {
                         Console.WriteLine("Send Message Failed");
-                        sw.WriteLine("fail");
-                        sw.Flush();
-                        return;
+                        Response.Add("fail");
+                        return Response;
                     }
 
                     Receivers.Add(Receiver);
@@ -127,21 +122,20 @@ namespace Server
 
                 Database.Instance.CreateMessage(NewMessage);
                 Console.WriteLine("Message Sent");
-                sw.WriteLine("success");
-                sw.Flush();
-                return;
+                Response.Add("success");
+                return Response;
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Send Message Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void SendBroadcast(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> SendBroadcast(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -167,23 +161,22 @@ namespace Server
                 NewMessage.Timestamp = CurrentDate;
                 NewMessage.IsBroadcast = true;
 
-                Database.Instance.CreateMessage(NewMessage);
+                Database.Instance.CreateBroadcast(NewMessage);
                 Console.WriteLine("Broadcast Sent");
-                sw.WriteLine("success");
-                sw.Flush();
-                return;
+                Response.Add("success");
+                return Response;
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Create Broadcast Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
 
-        public static void GetBroadcasts(Dictionary<string, string> Request, TcpClient Client)
+        public static List<string> GetBroadcasts(Dictionary<string, string> Request)
         {
-            StreamWriter sw = new StreamWriter(Client.GetStream(), Encoding.ASCII);
+            List<string> Response = new List<string>();
 
             try
             {
@@ -194,24 +187,22 @@ namespace Server
 
                 if (Broadcasts.Count == 0)
                 {
-                    sw.WriteLine("empty");
-                    sw.Flush();
-                    return;
+                    Response.Add("empty");
+                    return Response;
                 }
 
                 foreach (Message Broadcast in Broadcasts)
                 {
-                    sw.WriteLine(Broadcast.Sender + "," + Broadcast.Content + "," + Broadcast.Timestamp);
+                    Response.Add(Broadcast.Sender.Name + "," + Broadcast.Content + "," + Broadcast.Timestamp);
                 }
-                sw.Flush();
-                return;
+                return Response;
             }
             catch (Exception Ex)
             {
                 Console.WriteLine("Get Broadcasts Failed");
             }
-            sw.WriteLine("fail");
-            sw.Flush();
+            Response.Add("fail");
+            return Response;
         }
     }
 }

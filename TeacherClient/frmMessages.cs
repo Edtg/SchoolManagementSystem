@@ -110,7 +110,7 @@ namespace TeacherClient
             foreach (string Message in Messages)
             {
                 DateTime MessageTime = DateTime.ParseExact(Message.Split("|")[2], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
-                if (MessageTime > SavedMessages[SavedMessages.Count - 1].Timestamp)
+                if (SavedMessages.Count == 0 || MessageTime > SavedMessages[SavedMessages.Count - 1].Timestamp)
                 {
                     string SenderName = Message.Split("|")[0];
                     string MessageContent = Message.Split("|")[1];
