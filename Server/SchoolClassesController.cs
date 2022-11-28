@@ -149,12 +149,18 @@ namespace Server
             try
             {
                 SchoolClass schoolClass = Database.Instance.GetSchoolClass(Request["classname"]);
-                
-                foreach(var Marks in schoolClass.StudentsMarks)
-                {
-                    Response.Add(Marks.Key + "|" + Marks.Value);
-                }
 
+                if (schoolClass.StudentsMarks.Count > 0)
+                {
+                    foreach (var Marks in schoolClass.StudentsMarks)
+                    {
+                        Response.Add(Marks.Key.Name + "|" + Marks.Value);
+                    }
+                }
+                else
+                {
+                    Response.Add("empty");
+                }
                 return Response;
             }
             catch (Exception Ex)
@@ -236,6 +242,31 @@ namespace Server
             return Response;
         }
 
+        public static List<string> UpdateMarks(Dictionary<string, string> Request)
+        {
+            List<string> Response = new List<string>();
+
+            try
+            {
+                string ClassName = Request["classname"];
+                string StudentName = Request["student"];
+                int Marks = Int32.Parse(Request["marks"]);
+
+                SchoolClass Class = Database.Instance.GetSchoolClass(ClassName);
+                Student student = Database.Instance.GetStudent(StudentName);
+                Class.StudentsMarks[student] = Marks;
+
+                Response.Add("success");
+                return Response;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Updating Marks Failed");
+            }
+            Response.Add("fail");
+            return Response;
+        }
+
         public static List<string> GetClassParents(Dictionary<string, string> Request)
         {
             List<string> Response = new List<string>();
@@ -257,6 +288,30 @@ namespace Server
                 foreach (User Parent in Parents)
                 {
                     Response.Add(Parent.Name);
+                }
+                return Response;
+            }
+            catch (Exception Ex)
+            {
+                Console.WriteLine("Getting Class Parents Failed");
+            }
+            Response.Add("fail");
+            return Response;
+        }
+
+        public static List<string> RemoveClass(Dictionary<string, string> Request)
+        {
+            List<string> Response = new List<string>();
+
+            try
+            {
+                if (Database.Instance.RemoveSchoolClass(Request["classname"]))
+                {
+                    Response.Add("success");
+                }
+                else
+                {
+                    Response.Add("fail");
                 }
                 return Response;
             }

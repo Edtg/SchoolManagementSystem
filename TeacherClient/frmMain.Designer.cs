@@ -46,6 +46,8 @@
             this.text_Broadcast = new System.Windows.Forms.TextBox();
             this.cbo_BroadcastReceiver = new System.Windows.Forms.ComboBox();
             this.panel_EditClass = new System.Windows.Forms.Panel();
+            this.btn_DeleteEditingClass = new System.Windows.Forms.Button();
+            this.btn_SaveClassEdit = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.date_EditEndDate = new System.Windows.Forms.DateTimePicker();
@@ -56,8 +58,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_SaveClassEdit = new System.Windows.Forms.Button();
+            this.panel_EditingClassMarks = new System.Windows.Forms.TableLayoutPanel();
             this.panel_ClassList.SuspendLayout();
             this.panel_Broadcasts.SuspendLayout();
             this.panel_EditClass.SuspendLayout();
@@ -238,6 +239,7 @@
             // 
             // panel_EditClass
             // 
+            this.panel_EditClass.Controls.Add(this.btn_DeleteEditingClass);
             this.panel_EditClass.Controls.Add(this.btn_SaveClassEdit);
             this.panel_EditClass.Controls.Add(this.label10);
             this.panel_EditClass.Controls.Add(this.label9);
@@ -249,11 +251,31 @@
             this.panel_EditClass.Controls.Add(this.label7);
             this.panel_EditClass.Controls.Add(this.label6);
             this.panel_EditClass.Controls.Add(this.label5);
-            this.panel_EditClass.Controls.Add(this.tableLayoutPanel1);
+            this.panel_EditClass.Controls.Add(this.panel_EditingClassMarks);
             this.panel_EditClass.Location = new System.Drawing.Point(12, 39);
             this.panel_EditClass.Name = "panel_EditClass";
             this.panel_EditClass.Size = new System.Drawing.Size(776, 399);
             this.panel_EditClass.TabIndex = 7;
+            // 
+            // btn_DeleteEditingClass
+            // 
+            this.btn_DeleteEditingClass.Location = new System.Drawing.Point(132, 373);
+            this.btn_DeleteEditingClass.Name = "btn_DeleteEditingClass";
+            this.btn_DeleteEditingClass.Size = new System.Drawing.Size(122, 23);
+            this.btn_DeleteEditingClass.TabIndex = 12;
+            this.btn_DeleteEditingClass.Text = "Delete";
+            this.btn_DeleteEditingClass.UseVisualStyleBackColor = true;
+            this.btn_DeleteEditingClass.Click += new System.EventHandler(this.btn_DeleteEditingClass_Click);
+            // 
+            // btn_SaveClassEdit
+            // 
+            this.btn_SaveClassEdit.Location = new System.Drawing.Point(4, 373);
+            this.btn_SaveClassEdit.Name = "btn_SaveClassEdit";
+            this.btn_SaveClassEdit.Size = new System.Drawing.Size(122, 23);
+            this.btn_SaveClassEdit.TabIndex = 11;
+            this.btn_SaveClassEdit.Text = "Save";
+            this.btn_SaveClassEdit.UseVisualStyleBackColor = true;
+            this.btn_SaveClassEdit.Click += new System.EventHandler(this.btn_SaveClassEdit_Click);
             // 
             // label10
             // 
@@ -337,29 +359,19 @@
             this.label5.TabIndex = 1;
             this.label5.Text = "Class name:";
             // 
-            // tableLayoutPanel1
+            // panel_EditingClassMarks
             // 
-            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 153);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(770, 214);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // btn_SaveClassEdit
-            // 
-            this.btn_SaveClassEdit.Location = new System.Drawing.Point(4, 373);
-            this.btn_SaveClassEdit.Name = "btn_SaveClassEdit";
-            this.btn_SaveClassEdit.Size = new System.Drawing.Size(163, 23);
-            this.btn_SaveClassEdit.TabIndex = 11;
-            this.btn_SaveClassEdit.Text = "Save";
-            this.btn_SaveClassEdit.UseVisualStyleBackColor = true;
-            this.btn_SaveClassEdit.Click += new System.EventHandler(this.btn_SaveClassEdit_Click);
+            this.panel_EditingClassMarks.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.panel_EditingClassMarks.ColumnCount = 2;
+            this.panel_EditingClassMarks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.panel_EditingClassMarks.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.panel_EditingClassMarks.Location = new System.Drawing.Point(3, 153);
+            this.panel_EditingClassMarks.Name = "panel_EditingClassMarks";
+            this.panel_EditingClassMarks.RowCount = 1;
+            this.panel_EditingClassMarks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.panel_EditingClassMarks.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.panel_EditingClassMarks.Size = new System.Drawing.Size(770, 214);
+            this.panel_EditingClassMarks.TabIndex = 0;
             // 
             // frmMain
             // 
@@ -409,7 +421,7 @@
         private Label label7;
         private Label label6;
         private Label label5;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel panel_EditingClassMarks;
         private Label label8;
         private TextBox text_EditJoinCode;
         private TextBox text_EditClassName;
@@ -418,5 +430,6 @@
         private Label label10;
         private Label label9;
         private Button btn_SaveClassEdit;
+        private Button btn_DeleteEditingClass;
     }
 }

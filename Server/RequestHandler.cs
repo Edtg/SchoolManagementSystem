@@ -67,6 +67,12 @@ namespace Server
                 case "updateclass":
                     Response = SchoolClassesController.UpdateClass(ParsedRequest);
                     break;
+                case "updatemarks":
+                    Response = SchoolClassesController.UpdateMarks(ParsedRequest);
+                    break;
+                case "removeclass":
+                    Response = SchoolClassesController.RemoveClass(ParsedRequest);
+                    break;
                 case "classparents":
                     Response = SchoolClassesController.GetClassParents(ParsedRequest);
                     break;
@@ -84,6 +90,7 @@ namespace Server
                     break;
                 case "setsimulateddate":
                     Session.Instance.SimulatedDate = DateTime.ParseExact(ParsedRequest["date"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
+                    Response = new List<string> { "success" };
                     break;
 
 

@@ -125,7 +125,7 @@ namespace Server
             return Students;
         }
 
-        public Student? GetStufent(string Name)
+        public Student? GetStudent(string Name)
         {
             return Students.Find(s => s.Name.Equals(Name));
         }
@@ -138,6 +138,11 @@ namespace Server
         public SchoolClass? GetSchoolClass(string Name)
         {
             return SchoolClasses.Find(c => c.Name.Equals(Name));
+        }
+
+        public bool RemoveSchoolClass(string Name)
+        {
+            return SchoolClasses.Remove(GetSchoolClass(Name));
         }
 
         public IEnumerable<User> GetParentsForClass(SchoolClass Class)

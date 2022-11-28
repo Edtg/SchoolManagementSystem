@@ -6,6 +6,8 @@ namespace TeacherClient
     {
         private string EditingClassName = "";
 
+        private Dictionary<string, int> UpdatedClassMarks = new Dictionary<string, int>();
+
         public frmMain()
         {
             InitializeComponent();
@@ -126,17 +128,54 @@ namespace TeacherClient
 
         private void ShowClassEdit(object sender, EventArgs e, string ClassName)
         {
-            EditingClassName = ClassName;
-            text_EditClassName.Text = ClassName;
+            foreach (Label MarksTableControl in panel_EditingClassMarks.Controls.OfType<Label>().ToList())
+            {
+                panel_EditingClassMarks.Controls.Remove(MarksTableControl);
+                MarksTableControl.Dispose();
+            }
+            foreach (TextBox MarksTableControl in panel_EditingClassMarks.Controls.OfType<TextBox>().ToList())
+            {
+                panel_EditingClassMarks.Controls.Remove(MarksTableControl);
+                MarksTableControl.Dispose();
+            }
+            panel_EditingClassMarks.RowStyles.Clear();
 
-            string EditingClass = Client.Instance.SendData("instruction=getclass|classname=" + ClassName)[0];
+
+            EditingClassName = ClassName;
+            UpdatedClassMarks = new Dictionary<string, int>();
+            text_EditClassName.Text = EditingClassName;
+
+            string EditingClass = Client.Instance.SendData("instruction=getclass|classname=" + EditingClassName)[0];
             if (EditingClass.Equals(""))
             {
+                EditingClassName = "";
                 return;
             }
             date_EditStartDate.Value = DateTime.ParseExact(EditingClass.Split("|")[1], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
             date_EditEndDate.Value = DateTime.ParseExact(EditingClass.Split("|")[2], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
             text_EditJoinCode.Text = EditingClass.Split("|")[3];
+
+            List<string> EditingClassMarks = Client.Instance.SendData("instruction=getclassmarks|classname=" + EditingClassName);
+
+            panel_EditingClassMarks.RowCount = EditingClassMarks.Count;
+
+            if (!EditingClassMarks[0].Equals("empty"))
+            {
+                for (int i = 0; i < EditingClassMarks.Count; i++)
+                {
+                    string StudentName = EditingClassMarks[i].Split("|")[0];
+                    Label StudentMarkLabel = new Label();
+                    StudentMarkLabel.Text = StudentName;
+                    panel_EditingClassMarks.Controls.Add(StudentMarkLabel, 0, i);
+
+                    TextBox StudentMarkTextBox = new TextBox();
+                    StudentMarkTextBox.Text = EditingClassMarks[i].Split("|")[1];
+                    StudentMarkTextBox.TextChanged += (sender, EventArgs) => { UpdatedClassMarks[StudentName] = Int32.Parse(StudentMarkTextBox.Text); };
+                    panel_EditingClassMarks.Controls.Add(StudentMarkTextBox, 1, i);
+
+                    panel_EditingClassMarks.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
+                }
+            }
 
             HidePanels();
 
@@ -155,6 +194,26 @@ namespace TeacherClient
             UpdateClassRequest += "|code=" + text_EditJoinCode.Text;
 
             Client.Instance.SendData(UpdateClassRequest);
+
+            foreach (var Marks in UpdatedClassMarks)
+            {
+                Client.Instance.SendData("instruction=updatemarks|classname=" + EditingClassName + "|student=" + Marks.Key + "|marks=" + Marks.Value);
+            }
+
+            EditingClassName = "";
+        }
+
+        private void btn_DeleteEditingClass_Click(object sender, EventArgs e)
+        {
+            Client.Instance.SendData("instruction=removeclass|classname=" + EditingClassName);
+
+            EditingClassName = "";
+
+            HidePanels();
+
+            UpdateClassTable();
+
+            panel_ClassList.Visible = true;
         }
 
         private void btn_SetDate_Click(object sender, EventArgs e)
