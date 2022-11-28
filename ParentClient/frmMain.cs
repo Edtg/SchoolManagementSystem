@@ -54,7 +54,8 @@ namespace ParentClient
                 for (int i = 0; i < Classes.Count; i++)
                 {
                     string ClassName = Classes[i].Split("|")[0];
-                    DateTime ClassDate = DateTime.ParseExact(Classes[i].Split("|")[1], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime ClassStartDate = DateTime.ParseExact(Classes[i].Split("|")[1], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime ClassEndDate = DateTime.ParseExact(Classes[i].Split("|")[2], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
                     int Marks = -1;
                     Int32.TryParse(Classes[i].Split("|")[4], out Marks);
 
@@ -62,9 +63,13 @@ namespace ParentClient
                     ClassNameLabel.Text = ClassName;
                     panel_ClassTable.Controls.Add(ClassNameLabel, 0, i);
 
-                    Label ClassDateLabel = new Label();
-                    ClassDateLabel.Text = ClassDate.ToString();
-                    panel_ClassTable.Controls.Add(ClassDateLabel, 1, i);
+                    Label ClassStartDateLabel = new Label();
+                    ClassStartDateLabel.Text = ClassStartDate.ToString();
+                    panel_ClassTable.Controls.Add(ClassStartDateLabel, 1, i);
+
+                    Label ClassEndDateLabel = new Label();
+                    ClassEndDateLabel.Text = ClassEndDate.ToString();
+                    panel_ClassTable.Controls.Add(ClassEndDateLabel, 2, i);
 
                     Label MarksLabel = new Label();
                     if (Marks < 0)
@@ -75,7 +80,7 @@ namespace ParentClient
                     {
                         MarksLabel.Text = Marks.ToString();
                     }
-                    panel_ClassTable.Controls.Add(MarksLabel, 2, i);
+                    panel_ClassTable.Controls.Add(MarksLabel, 3, i);
 
                     panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 20));
                 }
