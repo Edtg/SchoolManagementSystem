@@ -31,24 +31,27 @@ namespace ParentClient
 
             List<string> Classes = Client.Instance.SendData("instruction=parentclasses|sort=date|parent=" + Session.Instance.ParentName);
 
-            for (int i = 0; i < Classes.Count; i++)
+            if (!Classes[0].Equals("empty"))
             {
-                string Teacher = Classes[i].Split("|")[2];
-                cbo_Contacts.Items.Add(Teacher);
-            }
+                for (int i = 0; i < Classes.Count; i++)
+                {
+                    string Teacher = Classes[i].Split("|")[3];
+                    cbo_Contacts.Items.Add(Teacher);
+                }
 
-            if (cbo_Contacts.Items.Count > 0)
-            {
-                SavedMessages = new List<Message>();
+                if (cbo_Contacts.Items.Count > 0)
+                {
+                    SavedMessages = new List<Message>();
 
-                cbo_Contacts.SelectedIndex = 0;
+                    cbo_Contacts.SelectedIndex = 0;
 
-                LoadMessages();
+                    LoadMessages();
 
-                UpdateTimer = new System.Windows.Forms.Timer();
-                UpdateTimer.Interval = 2000;
-                UpdateTimer.Tick += new EventHandler(LoadTick);
-                UpdateTimer.Start();
+                    UpdateTimer = new System.Windows.Forms.Timer();
+                    UpdateTimer.Interval = 2000;
+                    UpdateTimer.Tick += new EventHandler(LoadTick);
+                    UpdateTimer.Start();
+                }
             }
         }
 
