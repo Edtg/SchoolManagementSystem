@@ -15,10 +15,15 @@ namespace ParentClient
             {
                 Close();
             }
+
+            label_LoggedInValue.Text = Session.Instance.ParentName;
+
+            panel_Dashboard.Visible = true;
         }
 
         private void HidePanels()
         {
+            panel_Dashboard.Visible = false;
             panel_ClassList.Visible = false;
             panel_JoinClass.Visible = false;
             panel_Broadcasts.Visible = false;
@@ -64,11 +69,11 @@ namespace ParentClient
                     panel_ClassTable.Controls.Add(ClassNameLabel, 0, i);
 
                     Label ClassStartDateLabel = new Label();
-                    ClassStartDateLabel.Text = ClassStartDate.ToString();
+                    ClassStartDateLabel.Text = ClassStartDate.ToString("dd/MM/yyyy");
                     panel_ClassTable.Controls.Add(ClassStartDateLabel, 1, i);
 
                     Label ClassEndDateLabel = new Label();
-                    ClassEndDateLabel.Text = ClassEndDate.ToString();
+                    ClassEndDateLabel.Text = ClassEndDate.ToString("dd/MM/yyyy");
                     panel_ClassTable.Controls.Add(ClassEndDateLabel, 2, i);
 
                     Label MarksLabel = new Label();
@@ -95,7 +100,17 @@ namespace ParentClient
 
         private void btn_JoinClass_Click(object sender, EventArgs e)
         {
-            Client.Instance.SendData("instruction=joinclass|code=" + text_JoinCode.Text + "|parent=" + Session.Instance.ParentName);
+            string Result = Client.Instance.SendData("instruction=joinclass|code=" + text_JoinCode.Text + "|parent=" + Session.Instance.ParentName)[0];
+
+            if (Result.Equals("success"))
+            {
+                text_JoinCode.Text = "";
+                MessageBox.Show("Class joined");
+            }
+            else
+            {
+                MessageBox.Show("Error joining class");
+            }
         }
 
         private void btn_ViewBroadcastsMenu_Click(object sender, EventArgs e)

@@ -19,10 +19,15 @@ namespace TeacherClient
             {
                 Close();
             }
+
+            label_LoggedInValue.Text = Session.Instance.TeacherName;
+
+            panel_Dashboard.Visible = true;
         }
 
         private void HidePanels()
         {
+            panel_Dashboard.Visible = false;
             panel_ClassList.Visible = false;
             panel_Broadcasts.Visible = false;
             panel_EditClass.Visible = false;
@@ -93,25 +98,30 @@ namespace TeacherClient
             for (int i = 0; i < Classes.Count; i++)
             {
                 string ClassName = Classes[i].Split("|")[0];
-                string ClassDate = Classes[i].Split("|")[1];
-                string StudentCount = Classes[i].Split("|")[2];
+                DateTime ClassStartDate = DateTime.ParseExact(Classes[i].Split("|")[1], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
+                DateTime ClassEndDate = DateTime.ParseExact(Classes[i].Split("|")[2], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
+                string StudentCount = Classes[i].Split("|")[3];
 
                 Label ClassNameLabel = new Label();
                 ClassNameLabel.Text = ClassName;
                 panel_ClassTable.Controls.Add(ClassNameLabel, 0, i);
 
-                Label ClassDateLabel = new Label();
-                ClassDateLabel.Text = ClassDate;
-                panel_ClassTable.Controls.Add(ClassDateLabel, 1, i);
+                Label ClassDtartDateLabel = new Label();
+                ClassDtartDateLabel.Text = ClassStartDate.ToString("dd/MM/yyyy");
+                panel_ClassTable.Controls.Add(ClassDtartDateLabel, 1, i);
+
+                Label ClassEndDateLabel = new Label();
+                ClassEndDateLabel.Text = ClassEndDate.ToString("dd/MM/yyyy");
+                panel_ClassTable.Controls.Add(ClassEndDateLabel, 2, i);
 
                 Label ClassStudentCountLabel = new Label();
                 ClassStudentCountLabel.Text = StudentCount;
-                panel_ClassTable.Controls.Add(ClassStudentCountLabel, 2, i);
+                panel_ClassTable.Controls.Add(ClassStudentCountLabel, 3, i);
 
                 Button ClassEditButton = new Button();
                 ClassEditButton.Text = "Edit";
                 ClassEditButton.Click += (sender, EventArgs) => { ShowClassEdit(sender, EventArgs, ClassName); };
-                panel_ClassTable.Controls.Add(ClassEditButton, 3, i);
+                panel_ClassTable.Controls.Add(ClassEditButton, 4, i);
 
                 panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
             }
@@ -201,24 +211,44 @@ namespace TeacherClient
             }
 
             EditingClassName = "";
+
+            MessageBox.Show("Class saved");
         }
 
         private void btn_DeleteEditingClass_Click(object sender, EventArgs e)
         {
-            Client.Instance.SendData("instruction=removeclass|classname=" + EditingClassName);
+            string Result = Client.Instance.SendData("instruction=removeclass|classname=" + EditingClassName)[0];
 
-            EditingClassName = "";
+            if (Result.Equals("success"))
+            {
+                EditingClassName = "";
 
-            HidePanels();
+                HidePanels();
 
-            UpdateClassTable();
+                UpdateClassTable();
 
-            panel_ClassList.Visible = true;
+                panel_ClassList.Visible = true;
+
+                MessageBox.Show("Class deleted");
+            }
+            else
+            {
+                MessageBox.Show("Error deleting class");
+            }
         }
 
         private void btn_SetDate_Click(object sender, EventArgs e)
         {
-            Client.Instance.SendData("instruction=setsimulateddate|date=" + date_SimulationDate.Value.ToString("yyyyMMdd:HH:mm:ss"));
+            string Result = Client.Instance.SendData("instruction=setsimulateddate|date=" + date_SimulationDate.Value.ToString("yyyyMMdd:HH:mm:ss"))[0];
+
+            if (Result.Equals("success"))
+            {
+                MessageBox.Show("Date set to " + date_SimulationDate.Value.ToString("dd/MM/yyyy"));
+            }
+            else
+            {
+                MessageBox.Show("Error setting date");
+            }
         }
 
         private void UpdateBroadcastsPanel()
@@ -237,7 +267,16 @@ namespace TeacherClient
 
         private void btn_SendBroadcast_Click(object sender, EventArgs e)
         {
-            Client.Instance.SendData("instruction=sendbroadcast|sender=" + Session.Instance.TeacherName + "|classname=" + cbo_BroadcastReceiver.SelectedItem.ToString() + "|content=" + text_Broadcast.Text);
+            string Result = Client.Instance.SendData("instruction=sendbroadcast|sender=" + Session.Instance.TeacherName + "|classname=" + cbo_BroadcastReceiver.SelectedItem.ToString() + "|content=" + text_Broadcast.Text)[0];
+
+            if (Result.Equals("success"))
+            {
+                MessageBox.Show("Broadcast sent");
+            }
+            else
+            {
+                MessageBox.Show("Error sending broadcast");
+            }
         }
     }
 }

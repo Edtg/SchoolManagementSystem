@@ -59,9 +59,14 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel_EditingClassMarks = new System.Windows.Forms.TableLayoutPanel();
+            this.panel_Dashboard = new System.Windows.Forms.Panel();
+            this.label_LoggedInValue = new System.Windows.Forms.Label();
+            this.label_LoggedIn = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.panel_ClassList.SuspendLayout();
             this.panel_Broadcasts.SuspendLayout();
             this.panel_EditClass.SuspendLayout();
+            this.panel_Dashboard.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_ViewClassesMenu
@@ -96,6 +101,7 @@
             // 
             // panel_ClassList
             // 
+            this.panel_ClassList.Controls.Add(this.label11);
             this.panel_ClassList.Controls.Add(this.btn_NewClass);
             this.panel_ClassList.Controls.Add(this.label4);
             this.panel_ClassList.Controls.Add(this.label3);
@@ -130,7 +136,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(467, 38);
+            this.label3.Location = new System.Drawing.Point(533, 38);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(113, 15);
             this.label3.TabIndex = 4;
@@ -139,11 +145,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(239, 38);
+            this.label2.Location = new System.Drawing.Point(206, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 15);
+            this.label2.Size = new System.Drawing.Size(58, 15);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Date";
+            this.label2.Text = "Start Date";
             // 
             // label1
             // 
@@ -170,11 +176,12 @@
             // panel_ClassTable
             // 
             this.panel_ClassTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.panel_ClassTable.ColumnCount = 4;
-            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
-            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 129F));
+            this.panel_ClassTable.ColumnCount = 5;
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.21978F));
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.78022F));
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 121F));
+            this.panel_ClassTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.panel_ClassTable.Location = new System.Drawing.Point(3, 56);
             this.panel_ClassTable.Name = "panel_ClassTable";
             this.panel_ClassTable.RowCount = 2;
@@ -373,12 +380,49 @@
             this.panel_EditingClassMarks.Size = new System.Drawing.Size(770, 214);
             this.panel_EditingClassMarks.TabIndex = 0;
             // 
+            // panel_Dashboard
+            // 
+            this.panel_Dashboard.Controls.Add(this.label_LoggedInValue);
+            this.panel_Dashboard.Controls.Add(this.label_LoggedIn);
+            this.panel_Dashboard.Location = new System.Drawing.Point(12, 39);
+            this.panel_Dashboard.Name = "panel_Dashboard";
+            this.panel_Dashboard.Size = new System.Drawing.Size(773, 399);
+            this.panel_Dashboard.TabIndex = 8;
+            // 
+            // label_LoggedInValue
+            // 
+            this.label_LoggedInValue.AutoSize = true;
+            this.label_LoggedInValue.Location = new System.Drawing.Point(96, 14);
+            this.label_LoggedInValue.Name = "label_LoggedInValue";
+            this.label_LoggedInValue.Size = new System.Drawing.Size(30, 15);
+            this.label_LoggedInValue.TabIndex = 1;
+            this.label_LoggedInValue.Text = "User";
+            // 
+            // label_LoggedIn
+            // 
+            this.label_LoggedIn.AutoSize = true;
+            this.label_LoggedIn.Location = new System.Drawing.Point(13, 14);
+            this.label_LoggedIn.Name = "label_LoggedIn";
+            this.label_LoggedIn.Size = new System.Drawing.Size(77, 15);
+            this.label_LoggedIn.TabIndex = 0;
+            this.label_LoggedIn.Text = "Logged in as:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(370, 38);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(54, 15);
+            this.label11.TabIndex = 7;
+            this.label11.Text = "End Date";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panel_ClassList);
+            this.Controls.Add(this.panel_Dashboard);
             this.Controls.Add(this.panel_EditClass);
             this.Controls.Add(this.panel_Broadcasts);
             this.Controls.Add(this.btn_SetDate);
@@ -394,6 +438,8 @@
             this.panel_Broadcasts.PerformLayout();
             this.panel_EditClass.ResumeLayout(false);
             this.panel_EditClass.PerformLayout();
+            this.panel_Dashboard.ResumeLayout(false);
+            this.panel_Dashboard.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -431,5 +477,9 @@
         private Label label9;
         private Button btn_SaveClassEdit;
         private Button btn_DeleteEditingClass;
+        private Panel panel_Dashboard;
+        private Label label_LoggedIn;
+        private Label label_LoggedInValue;
+        private Label label11;
     }
 }

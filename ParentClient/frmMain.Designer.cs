@@ -31,6 +31,7 @@
             this.text_Input = new System.Windows.Forms.TextBox();
             this.btn_Submit = new System.Windows.Forms.Button();
             this.panel_ClassList = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -44,9 +45,12 @@
             this.btn_JoinClass = new System.Windows.Forms.Button();
             this.text_JoinCode = new System.Windows.Forms.TextBox();
             this.panel_Broadcasts = new System.Windows.Forms.FlowLayoutPanel();
-            this.label5 = new System.Windows.Forms.Label();
+            this.panel_Dashboard = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label_LoggedInValue = new System.Windows.Forms.Label();
             this.panel_ClassList.SuspendLayout();
             this.panel_JoinClass.SuspendLayout();
+            this.panel_Dashboard.SuspendLayout();
             this.SuspendLayout();
             // 
             // text_Input
@@ -77,6 +81,15 @@
             this.panel_ClassList.Name = "panel_ClassList";
             this.panel_ClassList.Size = new System.Drawing.Size(776, 397);
             this.panel_ClassList.TabIndex = 2;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(488, 11);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 15);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "End Date";
             // 
             // label4
             // 
@@ -206,20 +219,39 @@
             this.panel_Broadcasts.Size = new System.Drawing.Size(776, 398);
             this.panel_Broadcasts.TabIndex = 8;
             // 
-            // label5
+            // panel_Dashboard
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(488, 11);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(54, 15);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "End Date";
+            this.panel_Dashboard.Controls.Add(this.label_LoggedInValue);
+            this.panel_Dashboard.Controls.Add(this.label6);
+            this.panel_Dashboard.Location = new System.Drawing.Point(12, 40);
+            this.panel_Dashboard.Name = "panel_Dashboard";
+            this.panel_Dashboard.Size = new System.Drawing.Size(776, 398);
+            this.panel_Dashboard.TabIndex = 9;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(77, 15);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Logged in as:";
+            // 
+            // label_LoggedInValue
+            // 
+            this.label_LoggedInValue.AutoSize = true;
+            this.label_LoggedInValue.Location = new System.Drawing.Point(95, 12);
+            this.label_LoggedInValue.Name = "label_LoggedInValue";
+            this.label_LoggedInValue.Size = new System.Drawing.Size(30, 15);
+            this.label_LoggedInValue.TabIndex = 1;
+            this.label_LoggedInValue.Text = "User";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.panel_Dashboard);
             this.Controls.Add(this.panel_ClassList);
             this.Controls.Add(this.panel_Broadcasts);
             this.Controls.Add(this.panel_JoinClass);
@@ -235,6 +267,8 @@
             this.panel_ClassList.PerformLayout();
             this.panel_JoinClass.ResumeLayout(false);
             this.panel_JoinClass.PerformLayout();
+            this.panel_Dashboard.ResumeLayout(false);
+            this.panel_Dashboard.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -259,5 +293,8 @@
         private FlowLayoutPanel panel_Broadcasts;
         private Label label4;
         private Label label5;
+        private Panel panel_Dashboard;
+        private Label label_LoggedInValue;
+        private Label label6;
     }
 }

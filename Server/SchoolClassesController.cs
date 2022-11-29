@@ -111,7 +111,7 @@ namespace Server
 
                 foreach (SchoolClass schoolClass in Classes)
                 {
-                    Response.Add(schoolClass.Name + "|" + schoolClass.StartDate.ToString("yyyyMMdd:HH:mm:ss") + "|" + schoolClass.StudentsMarks.Count.ToString());
+                    Response.Add(schoolClass.Name + "|" + schoolClass.StartDate.ToString("yyyyMMdd:HH:mm:ss") + "|" + schoolClass.EndDate.ToString("yyyyMMdd:HH:mm:ss") + "|" + schoolClass.StudentsMarks.Count.ToString());
                 }
                 return Response;
             }
