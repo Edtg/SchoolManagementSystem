@@ -163,7 +163,7 @@ namespace Server
             return StudentMarks;
         }
 
-        public void CreateSchoolClassClass(SchoolClass NewClass)
+        public void CreateSchoolClass(SchoolClass NewClass)
         {
             SchoolClasses.Add(NewClass);
         }

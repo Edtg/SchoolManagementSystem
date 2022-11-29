@@ -194,7 +194,7 @@ namespace Server
                     JoinCode = Request["code"]
                 };
 
-                Database.Instance.CreateSchoolClassClass(NewClass);
+                Database.Instance.CreateSchoolClass(NewClass);
 
                 Response.Add("success");
                 return Response;
@@ -225,13 +225,13 @@ namespace Server
                     User Teacher = Database.Instance.GetTeachers().Where(t => t.Name == Request["Name"]).First();
                     Database.Instance.UpdateSchoolClassTeacher(UpdatingClass, Teacher);
                 }
-                if (Request.ContainsKey("year") && Request.ContainsKey("month") && Request.ContainsKey("day"))
+                if (Request.ContainsKey("startdate"))
                 {
-                    Database.Instance.UpdateSchoolClassStartDate(UpdatingClass, new DateTime(Int32.Parse(Request["year"]), Int32.Parse(Request["month"]), Int32.Parse(Request["day"])));
+                    Database.Instance.UpdateSchoolClassStartDate(UpdatingClass, DateTime.ParseExact(Request["startdate"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture));
                 }
-                if (Request.ContainsKey("endyear") && Request.ContainsKey("endmonth") && Request.ContainsKey("endday"))
+                if (Request.ContainsKey("enddate"))
                 {
-                    Database.Instance.UpdateSchoolClassEndDate(UpdatingClass, new DateTime(Int32.Parse(Request["endyear"]), Int32.Parse(Request["endmonth"]), Int32.Parse(Request["endday"])));
+                    Database.Instance.UpdateSchoolClassEndDate(UpdatingClass, DateTime.ParseExact(Request["enddate"], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture));
                 }
                 if (Request.ContainsKey("code"))
                 {
