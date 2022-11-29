@@ -98,20 +98,20 @@ namespace TeacherClient
 
                 Label ClassNameLabel = new Label();
                 ClassNameLabel.Text = ClassName;
-                panel_ClassTable.Controls.Add(ClassNameLabel, 0, i - 1);
+                panel_ClassTable.Controls.Add(ClassNameLabel, 0, i);
 
                 Label ClassDateLabel = new Label();
                 ClassDateLabel.Text = ClassDate;
-                panel_ClassTable.Controls.Add(ClassDateLabel, 1, i - 1);
+                panel_ClassTable.Controls.Add(ClassDateLabel, 1, i);
 
                 Label ClassStudentCountLabel = new Label();
                 ClassStudentCountLabel.Text = StudentCount;
-                panel_ClassTable.Controls.Add(ClassStudentCountLabel, 2, i - 1);
+                panel_ClassTable.Controls.Add(ClassStudentCountLabel, 2, i);
 
                 Button ClassEditButton = new Button();
                 ClassEditButton.Text = "Edit";
                 ClassEditButton.Click += (sender, EventArgs) => { ShowClassEdit(sender, EventArgs, ClassName); };
-                panel_ClassTable.Controls.Add(ClassEditButton, 3, i - 1);
+                panel_ClassTable.Controls.Add(ClassEditButton, 3, i);
 
                 panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
             }

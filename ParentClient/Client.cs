@@ -53,12 +53,12 @@ namespace ParentClient
                 _sw.WriteLine(data);
                 _sw.Flush();
 
-                List<string> response = new List<string>();
+                List<string> Response = new List<string>();
                 while (_sr.Peek() != -1)
                 {
-                    response.Add(_sr.ReadLine() ?? "");
+                    Response.Add(_sr.ReadLine() ?? "");
                 }
-                return response;
+                return Response;
             }
 
             return null;

@@ -92,7 +92,7 @@
             this.MinimizeBox = false;
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Login";
+            this.Text = "Teacher Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 

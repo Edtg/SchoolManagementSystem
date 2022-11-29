@@ -378,11 +378,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.panel_ClassList);
             this.Controls.Add(this.panel_EditClass);
             this.Controls.Add(this.panel_Broadcasts);
             this.Controls.Add(this.btn_SetDate);
             this.Controls.Add(this.date_SimulationDate);
-            this.Controls.Add(this.panel_ClassList);
             this.Controls.Add(this.btn_MessagesMenu);
             this.Controls.Add(this.btn_BroadcastsMenu);
             this.Controls.Add(this.btn_ViewClassesMenu);
