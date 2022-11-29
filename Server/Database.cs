@@ -219,7 +219,7 @@ namespace Server
 
         public IEnumerable<Message> GetMessages(User User1, User User2)
         {
-            return Messages.Where(m => (m.Receivers.Contains(User1) && m.Sender.Equals(User2)) || ( m.Receivers.Contains(User2) && m.Sender.Equals(User1)) && !m.IsBroadcast).OrderBy(m => m.Timestamp).ToList();
+            return Messages.Where(m => ((m.Receivers.Contains(User1) && m.Sender.Equals(User2)) || (m.Receivers.Contains(User2) && m.Sender.Equals(User1))) && !m.IsBroadcast).OrderBy(m => m.Timestamp).ToList();
         }
 
         public void CreateMessage(Message NewMessage)

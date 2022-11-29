@@ -31,15 +31,18 @@ namespace TeacherClient
 
             List<string> Classes = Client.Instance.SendData("instruction=teacherclasses|sort=date|teacher=" + Session.Instance.TeacherName);
 
-            for (int i = 1; i < Classes.Count; i++)
+            if (!Classes[0].Equals("empty"))
             {
-                List<string> Parents = Client.Instance.SendData("instruction=classparents|class=" + Classes[i].Split("|")[0]);
-
-                if (Parents[0] != "empty")
+                for (int i = 0; i < Classes.Count; i++)
                 {
-                    foreach (string Parent in Parents)
+                    List<string> Parents = Client.Instance.SendData("instruction=classparents|class=" + Classes[i].Split("|")[0]);
+
+                    if (Parents[0] != "empty")
                     {
-                        cbo_Contacts.Items.Add(Parent);
+                        foreach (string Parent in Parents)
+                        {
+                            cbo_Contacts.Items.Add(Parent);
+                        }
                     }
                 }
             }
