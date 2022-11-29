@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Server;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ServerTests
 {
@@ -127,7 +128,69 @@ namespace ServerTests
                 JoinCode = "TC",
                 StudentsMarks = new Dictionary<Student, int>()
             };
-            Assert.AreEqual(ExpectedClass, Database.Instance.SchoolClasses[0]);
+            Assert.AreEqual(ExpectedClass.Name, Database.Instance.SchoolClasses[0].Name);
+            Assert.AreEqual(ExpectedClass.ClassTeacher, Database.Instance.SchoolClasses[0].ClassTeacher);
+            Assert.AreEqual(ExpectedClass.StartDate.ToString(), Database.Instance.SchoolClasses[0].StartDate.ToString());
+            Assert.AreEqual(ExpectedClass.EndDate.ToString(), Database.Instance.SchoolClasses[0].EndDate.ToString());
+            Assert.AreEqual(ExpectedClass.JoinCode, Database.Instance.SchoolClasses[0].JoinCode);
+        }
+
+        [TestMethod]
+        public void MessageControllerParentSendAndGetMessageTest()
+        {
+            Database.Instance.Messages.Clear();
+
+            Dictionary<string, string> TestRequestSend = new Dictionary<string, string>();
+            TestRequestSend.Add("instruction", "sendmessage");
+            TestRequestSend.Add("sendertype", "parent");
+            TestRequestSend.Add("sender", "Parent1");
+            TestRequestSend.Add("receivers", "Teacher1");
+            TestRequestSend.Add("content", "Test");
+
+            List<string> TestResponseSend = MessageController.SendMessage(TestRequestSend);
+
+            Assert.AreEqual("success", TestResponseSend[0]);
+
+            Dictionary<string, string> TestRequestGet = new Dictionary<string, string>();
+            TestRequestGet.Add("instruction", "getmessages");
+            TestRequestGet.Add("usertype", "parent");
+            TestRequestGet.Add("username", "Parent1");
+            TestRequestGet.Add("contact", "Teacher1");
+
+            List<string> TestResponseGet = MessageController.GetMesages(TestRequestGet);
+
+            Message SentMessage = Database.Instance.GetMessages(Database.Instance.GetParent("Parent1"), Database.Instance.GetTeacher("Teacher1")).ToList()[0];
+            string ExpectedResponse = SentMessage.Sender.Name + "|" + SentMessage.Content + "|" + SentMessage.Timestamp.ToString("yyyyMMdd:HH:mm:ss");
+            Assert.AreEqual(ExpectedResponse, TestResponseGet[0]);
+        }
+
+        [TestMethod]
+        public void MessageControllerTeacherSendAndGetMessageTest()
+        {
+            Database.Instance.Messages.Clear();
+
+            Dictionary<string, string> TestRequestSend = new Dictionary<string, string>();
+            TestRequestSend.Add("instruction", "sendmessage");
+            TestRequestSend.Add("sendertype", "teacher");
+            TestRequestSend.Add("sender", "Teacher1");
+            TestRequestSend.Add("receivers", "Parent1");
+            TestRequestSend.Add("content", "Test");
+
+            List<string> TestResponseSend = MessageController.SendMessage(TestRequestSend);
+
+            Assert.AreEqual("success", TestResponseSend[0]);
+
+            Dictionary<string, string> TestRequestGet = new Dictionary<string, string>();
+            TestRequestGet.Add("instruction", "getmessages");
+            TestRequestGet.Add("usertype", "teacher");
+            TestRequestGet.Add("username", "Teacher1");
+            TestRequestGet.Add("contact", "Parent1");
+
+            List<string> TestResponseGet = MessageController.GetMesages(TestRequestGet);
+
+            Message SentMessage = Database.Instance.GetMessages(Database.Instance.GetTeacher("Teacher1"), Database.Instance.GetParent("Parent1")).ToList()[0];
+            string ExpectedResponse = SentMessage.Sender.Name + "|" + SentMessage.Content + "|" + SentMessage.Timestamp.ToString("yyyyMMdd:HH:mm:ss");
+            Assert.AreEqual(ExpectedResponse, TestResponseGet[0]);
         }
     }
 }
