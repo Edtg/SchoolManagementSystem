@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.text_Input = new System.Windows.Forms.TextBox();
-            this.btn_Submit = new System.Windows.Forms.Button();
             this.panel_ClassList = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -46,29 +44,12 @@
             this.text_JoinCode = new System.Windows.Forms.TextBox();
             this.panel_Broadcasts = new System.Windows.Forms.FlowLayoutPanel();
             this.panel_Dashboard = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.label_LoggedInValue = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel_ClassList.SuspendLayout();
             this.panel_JoinClass.SuspendLayout();
             this.panel_Dashboard.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // text_Input
-            // 
-            this.text_Input.Location = new System.Drawing.Point(533, 12);
-            this.text_Input.Name = "text_Input";
-            this.text_Input.Size = new System.Drawing.Size(100, 23);
-            this.text_Input.TabIndex = 0;
-            // 
-            // btn_Submit
-            // 
-            this.btn_Submit.Location = new System.Drawing.Point(664, 12);
-            this.btn_Submit.Name = "btn_Submit";
-            this.btn_Submit.Size = new System.Drawing.Size(100, 23);
-            this.btn_Submit.TabIndex = 1;
-            this.btn_Submit.Text = "Send";
-            this.btn_Submit.UseVisualStyleBackColor = true;
-            this.btn_Submit.Click += new System.EventHandler(this.btn_Submit_Click);
             // 
             // panel_ClassList
             // 
@@ -228,15 +209,6 @@
             this.panel_Dashboard.Size = new System.Drawing.Size(776, 398);
             this.panel_Dashboard.TabIndex = 9;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 12);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 15);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Logged in as:";
-            // 
             // label_LoggedInValue
             // 
             this.label_LoggedInValue.AutoSize = true;
@@ -245,6 +217,15 @@
             this.label_LoggedInValue.Size = new System.Drawing.Size(30, 15);
             this.label_LoggedInValue.TabIndex = 1;
             this.label_LoggedInValue.Text = "User";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(77, 15);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Logged in as:";
             // 
             // frmMain
             // 
@@ -259,8 +240,6 @@
             this.Controls.Add(this.btn_ViewBroadcastsMenu);
             this.Controls.Add(this.btn_JoinClassMenu);
             this.Controls.Add(this.btn_ClassListMenu);
-            this.Controls.Add(this.btn_Submit);
-            this.Controls.Add(this.text_Input);
             this.Name = "frmMain";
             this.Text = "Parent Client";
             this.panel_ClassList.ResumeLayout(false);
@@ -270,14 +249,10 @@
             this.panel_Dashboard.ResumeLayout(false);
             this.panel_Dashboard.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private TextBox text_Input;
-        private Button btn_Submit;
         private Panel panel_ClassList;
         private TableLayoutPanel panel_ClassTable;
         private Label label2;

@@ -29,11 +29,6 @@ namespace ParentClient
             panel_Broadcasts.Visible = false;
         }
 
-        private void btn_Submit_Click(object sender, EventArgs e)
-        {
-            Client.Instance.SendData(text_Input.Text);
-        }
-
         private void btn_ClassListMenu_Click(object sender, EventArgs e)
         {
             HidePanels();
