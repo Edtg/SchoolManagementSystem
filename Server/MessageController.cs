@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    internal class MessageController
+    public class MessageController
     {
         public static List<string> GetMesages(Dictionary<string, string> Request)
         {

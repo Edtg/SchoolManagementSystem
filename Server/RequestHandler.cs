@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    internal class RequestHandler
+    public class RequestHandler
     {
         public static void HandleRequest(TcpClient Client, string Request)
         {

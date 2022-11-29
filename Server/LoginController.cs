@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    internal class LoginController
+    public class LoginController
     {
         public static List<string> LoginParent(Dictionary<string, string> Request)
         {

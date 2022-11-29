@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    internal class SchoolClassesController
+    public class SchoolClassesController
     {
         #region Parent functions
         public static List<string> GetParentClasses(Dictionary<string, string> Request)
