@@ -96,6 +96,12 @@ namespace Server
                 User teacher = Database.Instance.GetTeachers().Where(t => t.Name.Equals(TeacherName)).First();
                 List<SchoolClass> Classes = Database.Instance.GetSchoolClasses().Where(c => c.ClassTeacher.Equals(teacher)).ToList();
 
+                if (Classes.Count == 0)
+                {
+                    Response.Add("empty");
+                    return Response;
+                }
+
                 if (SortBy.Equals("name"))
                 {
                     Classes = Classes.OrderBy(c => c.Name).ToList();

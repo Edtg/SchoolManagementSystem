@@ -94,36 +94,39 @@ namespace TeacherClient
             panel_ClassTable.RowCount = 0;
             List<string> Classes = Client.Instance.SendData("instruction=teacherclasses|sort=" + SortType + "|teacher=" + Session.Instance.TeacherName);
 
-            panel_ClassTable.RowCount = Classes.Count;
-            for (int i = 0; i < Classes.Count; i++)
+            if (Classes[0] != "empty")
             {
-                string ClassName = Classes[i].Split("|")[0];
-                DateTime ClassStartDate = DateTime.ParseExact(Classes[i].Split("|")[1], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
-                DateTime ClassEndDate = DateTime.ParseExact(Classes[i].Split("|")[2], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
-                string StudentCount = Classes[i].Split("|")[3];
+                panel_ClassTable.RowCount = Classes.Count;
+                for (int i = 0; i < Classes.Count; i++)
+                {
+                    string ClassName = Classes[i].Split("|")[0];
+                    DateTime ClassStartDate = DateTime.ParseExact(Classes[i].Split("|")[1], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
+                    DateTime ClassEndDate = DateTime.ParseExact(Classes[i].Split("|")[2], "yyyyMMdd:HH:mm:ss", CultureInfo.InvariantCulture);
+                    string StudentCount = Classes[i].Split("|")[3];
 
-                Label ClassNameLabel = new Label();
-                ClassNameLabel.Text = ClassName;
-                panel_ClassTable.Controls.Add(ClassNameLabel, 0, i);
+                    Label ClassNameLabel = new Label();
+                    ClassNameLabel.Text = ClassName;
+                    panel_ClassTable.Controls.Add(ClassNameLabel, 0, i);
 
-                Label ClassDtartDateLabel = new Label();
-                ClassDtartDateLabel.Text = ClassStartDate.ToString("dd/MM/yyyy");
-                panel_ClassTable.Controls.Add(ClassDtartDateLabel, 1, i);
+                    Label ClassDtartDateLabel = new Label();
+                    ClassDtartDateLabel.Text = ClassStartDate.ToString("dd/MM/yyyy");
+                    panel_ClassTable.Controls.Add(ClassDtartDateLabel, 1, i);
 
-                Label ClassEndDateLabel = new Label();
-                ClassEndDateLabel.Text = ClassEndDate.ToString("dd/MM/yyyy");
-                panel_ClassTable.Controls.Add(ClassEndDateLabel, 2, i);
+                    Label ClassEndDateLabel = new Label();
+                    ClassEndDateLabel.Text = ClassEndDate.ToString("dd/MM/yyyy");
+                    panel_ClassTable.Controls.Add(ClassEndDateLabel, 2, i);
 
-                Label ClassStudentCountLabel = new Label();
-                ClassStudentCountLabel.Text = StudentCount;
-                panel_ClassTable.Controls.Add(ClassStudentCountLabel, 3, i);
+                    Label ClassStudentCountLabel = new Label();
+                    ClassStudentCountLabel.Text = StudentCount;
+                    panel_ClassTable.Controls.Add(ClassStudentCountLabel, 3, i);
 
-                Button ClassEditButton = new Button();
-                ClassEditButton.Text = "Edit";
-                ClassEditButton.Click += (sender, EventArgs) => { ShowClassEdit(sender, EventArgs, ClassName); };
-                panel_ClassTable.Controls.Add(ClassEditButton, 4, i);
+                    Button ClassEditButton = new Button();
+                    ClassEditButton.Text = "Edit";
+                    ClassEditButton.Click += (sender, EventArgs) => { ShowClassEdit(sender, EventArgs, ClassName); };
+                    panel_ClassTable.Controls.Add(ClassEditButton, 4, i);
 
-                panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
+                    panel_ClassTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
+                }
             }
         }
 

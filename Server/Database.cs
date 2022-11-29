@@ -79,25 +79,16 @@ namespace Server
 
         private void Seed()
         {
-            Parents.Add(new User { Name="P1", Password="1234" });
-            Parents.Add(new User { Name = "P2", Password = "12345" });
+            Parents.Add(new User { Name="Parent1", Password="1234" });
+            Parents.Add(new User { Name = "Parent2", Password = "12345" });
 
 
-            Students.Add(new Student { Name = "S1", StudentParent = Parents[0] });
-            Students.Add(new Student { Name = "S2", StudentParent = Parents[1] });
+            Students.Add(new Student { Name = "Student1", StudentParent = Parents[0] });
+            Students.Add(new Student { Name = "Student2", StudentParent = Parents[1] });
 
 
-            Teachers.Add(new User { Name = "T1", Password = "1234" });
-            Teachers.Add(new User { Name = "T2", Password = "12345" });
-
-            Dictionary<Student, int> Class1Marks = new Dictionary<Student, int>();
-            SchoolClasses.Add(new SchoolClass { Name = "Class 1", ClassTeacher = Teachers[0], StartDate = new DateTime(2022, 12, 1), EndDate = new DateTime(2022, 12, 9), StudentsMarks = Class1Marks, JoinCode = "C1" });
-
-            Dictionary<Student, int> Class2Marks = new Dictionary<Student, int>();
-            SchoolClasses.Add(new SchoolClass { Name = "Class 2", ClassTeacher = Teachers[1], StartDate = new DateTime(2022, 12, 3), EndDate = new DateTime(2022, 12, 10), StudentsMarks = Class2Marks, JoinCode = "C2" });
-
-            Dictionary<Student, int> Class3Marks = new Dictionary<Student, int>();
-            SchoolClasses.Add(new SchoolClass { Name = "Class 3", ClassTeacher = Teachers[0], StartDate = new DateTime(2022, 12, 2), EndDate = new DateTime(2022, 12, 12), StudentsMarks = Class3Marks, JoinCode = "C3" });
+            Teachers.Add(new User { Name = "Teacher1", Password = "1234" });
+            Teachers.Add(new User { Name = "Teacher2", Password = "12345" });
         }
 
         public IEnumerable<User> GetParents()
