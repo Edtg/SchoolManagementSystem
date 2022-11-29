@@ -201,9 +201,9 @@ namespace TeacherClient
             UpdateClassRequest += "|classname=" + EditingClassName;
             UpdateClassRequest += "|name=" + text_EditClassName.Text;
             DateTime ClassStartDate = date_EditStartDate.Value;
-            UpdateClassRequest += "|year=" + ClassStartDate.Year.ToString() + "|month=" + ClassStartDate.Month.ToString() + "|day=" + ClassStartDate.Day.ToString();
+            UpdateClassRequest += "|startdate=" + ClassStartDate.ToString("yyyyMMdd:HH:mm:ss");
             DateTime ClassEndDate = date_EditEndDate.Value;
-            UpdateClassRequest += "|endyear=" + ClassEndDate.Year.ToString() + "|endmonth=" + ClassEndDate.Month.ToString() + "|endday=" + ClassEndDate.Day.ToString();
+            UpdateClassRequest += "|enddate=" + ClassEndDate.ToString("yyyyMMdd:HH:mm:ss");
             UpdateClassRequest += "|code=" + text_EditJoinCode.Text;
 
             Client.Instance.SendData(UpdateClassRequest);
